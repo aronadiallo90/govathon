@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Secteurs - GOVATHON</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Styles communs -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/data-management.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>GOVATHON</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Tableau de bord</a>
+                </li>
+                <li class="active">
+                    <a href="sectors.html"><i class="fas fa-industry"></i> Secteurs</a>
+                </li>
+                <li>
+                    <a href="projects.html"><i class="fas fa-project-diagram"></i> Projets</a>
+                </li>
+                <li>
+                    <a href="jury.html"><i class="fas fa-user-tie"></i> Jury</a>
+                </li>
+                <li>
+                    <a href="criteria.html"><i class="fas fa-list-check"></i> Critères</a>
+                </li>
+                <li>
+                    <a href="votes.html"><i class="fas fa-vote-yea"></i> Votes</a>
+                </li>
+                <li>
+                    <a href="stages.html"><i class="fas fa-tasks"></i> Étapes</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher un secteur...">
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <img src="https://via.placeholder.com/40" alt="Profile">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="data-management-content">
+                <div class="data-header">
+                    <h2>Gestion des Secteurs</h2>
+                    <button id="add-sector-btn" class="btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un secteur
+                    </button>
+                </div>
+
+                <div class="data-filters">
+                    <select id="filter-type">
+                        <option value="all">Tous les types</option>
+                        <option value="technology">Technologie</option>
+                        <option value="health">Santé</option>
+                        <option value="education">Éducation</option>
+                        <option value="environment">Environnement</option>
+                    </select>
+                    <button class="btn-secondary">Filtrer</button>
+                </div>
+
+                <div class="sectors-grid">
+                    <!-- Les secteurs seront chargés dynamiquement via JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal pour ajouter/modifier un secteur -->
+    <div id="sectorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajouter un secteur</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="sectorForm">
+                    <div class="form-group">
+                        <label for="sectorName">Nom du secteur</label>
+                        <input type="text" id="sectorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sectorDescription">Description</label>
+                        <textarea id="sectorDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Icône</label>
+                        <div class="icon-selector">
+                            <div class="icon-option selected">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="icon-option">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="icon-option">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="icon-option">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="icon-option">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="icon-option">
+                                <i class="fas fa-building"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelBtn" class="btn-secondary">Annuler</button>
+                        <button type="submit" class="btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/sectors.js"></script>
+</body>
+</html> 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Projets - GOVATHON</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/data-management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>GOVATHON</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="sectors.html"><i class="fas fa-industry"></i> Secteurs</a>
+                </li>
+                <li class="active">
+                    <a href="projects.html"><i class="fas fa-project-diagram"></i> Projets</a>
+                </li>
+                <li>
+                    <a href="jury.html"><i class="fas fa-user-tie"></i> Jury</a>
+                </li>
+                <li>
+                    <a href="criteria.html"><i class="fas fa-list-check"></i> Critères</a>
+                </li>
+                <li>
+                    <a href="votes.html"><i class="fas fa-vote-yea"></i> Votes</a>
+                </li>
+                <li>
+                    <a href="stages.html"><i class="fas fa-tasks"></i> Étapes</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher un projet...">
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <img src="https://via.placeholder.com/40" alt="Profile">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="data-management-content">
+                <div class="data-header">
+                    <h2>Gestion des Projets</h2>
+                    <button id="add-project-btn" class="btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un projet
+                    </button>
+                </div>
+
+                <div class="data-filters">
+                    <select id="filter-sector">
+                        <option value="all">Tous les secteurs</option>
+                        <option value="1">Smart City</option>
+                        <option value="2">Santé</option>
+                        <option value="3">Éducation</option>
+                        <option value="4">Environnement</option>
+                        <option value="5">Transport</option>
+                        <option value="6">Culture</option>
+                    </select>
+                    <select id="filter-status">
+                        <option value="all">Tous les statuts</option>
+                        <option value="pending">En attente</option>
+                        <option value="approved">Approuvé</option>
+                        <option value="rejected">Rejeté</option>
+                    </select>
+                    <button class="btn-secondary">Filtrer</button>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Équipe</th>
+                                <th>Secteur</th>
+                                <th>Date de soumission</th>
+                                <th>Statut</th>
+                                <th>Note moyenne</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body">
+                            <!-- Les données seront injectées ici par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-secondary"><i class="fas fa-chevron-left"></i></button>
+                    <span>Page 1 sur 3</span>
+                    <button class="btn-secondary"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal pour ajouter/modifier un projet -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajouter un projet</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="project-form">
+                    <div class="form-group">
+                        <label for="project-name">Nom du projet</label>
+                        <input type="text" id="project-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-team">Nom de l'équipe</label>
+                        <input type="text" id="project-team" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-sector">Secteur</label>
+                        <select id="project-sector" required>
+                            <option value="1">Smart City</option>
+                            <option value="2">Santé</option>
+                            <option value="3">Éducation</option>
+                            <option value="4">Environnement</option>
+                            <option value="5">Transport</option>
+                            <option value="6">Culture</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description">Description</label>
+                        <textarea id="project-description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-status">Statut</label>
+                        <select id="project-status" required>
+                            <option value="pending">En attente</option>
+                            <option value="approved">Approuvé</option>
+                            <option value="rejected">Rejeté</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        
+                        <div id="dynamic-fields">
+                            <!-- Les champs dynamiques seront ajoutés ici -->
+                        </div>
+                        
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-btn">Annuler</button>
+                        <button type="submit" class="btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/projects.js"></script>
+</body>
+</html> 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription d'équipe</title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Inscription d'équipe</h1>
+        <form id="teamRegistrationForm">
+            <div class="form-section">
+                <h2>Informations de l'équipe</h2>
+                <div class="form-group">
+                    <label for="teamName">Nom de l'équipe</label>
+                    <input type="text" id="teamName" name="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label for="teamCategory">Catégorie</label>
+                    <select id="teamCategory" name="teamCategory" required>
+                        <option value="">Sélectionnez une catégorie</option>
+                        <option value="junior">Junior</option>
+                        <option value="senior">Senior</option>
+                        <option value="expert">Expert</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Membres de l'équipe</h2>
+                <div id="teamMembers">
+                    <!-- Les membres seront ajoutés ici dynamiquement -->
+                </div>
+                <button type="button" class="btn btn-primary" id="addMember">Ajouter un membre</button>
+            </div>
+
+            <div class="form-section">
+                <h2>Votes</h2>
+                <div class="votes-container">
+                    <div class="vote-category">
+                        <h3>Innovation</h3>
+                        <div class="vote-slider">
+                            <input type="range" min="1" max="5" value="3" class="slider" id="innovationVote" name="innovationVote">
+                            <div class="vote-labels">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                                <span>5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vote-category">
+                        <h3>Design</h3>
+                        <div class="vote-slider">
+                            <input type="range" min="1" max="5" value="3" class="slider" id="designVote" name="designVote">
+                            <div class="vote-labels">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                                <span>5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vote-category">
+                        <h3>Fonctionnalité</h3>
+                        <div class="vote-slider">
+                            <input type="range" min="1" max="5" value="3" class="slider" id="functionalityVote" name="functionalityVote">
+                            <div class="vote-labels">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                                <span>5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Contact</h2>
+                <div class="form-group">
+                    <label for="contactEmail">Email de contact</label>
+                    <input type="email" id="contactEmail" name="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Téléphone de contact</label>
+                    <input type="tel" id="contactPhone" name="contactPhone" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Soumettre l'inscription</button>
+        </form>
+    </div>
+
+    <script src="registration.js"></script>
+</body>
+</html> 

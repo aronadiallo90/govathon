@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>AdminPro</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="users.html"><i class="fas fa-users"></i> Utilisateurs</a>
+                </li>
+                <li>
+                    <a href="products.html"><i class="fas fa-box"></i> Produits</a>
+                </li>
+                <li>
+                    <a href="data-management.html"><i class="fas fa-database"></i> Gestion des Données</a>
+                </li>
+                <li>
+                    <a href="statistics.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+                </li>
+                <li class="active">
+                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher dans les paramètres...">
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <img src="https://via.placeholder.com/40" alt="Profile">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="settings-content">
+                <div class="settings-header">
+                    <h2>Paramètres</h2>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-sidebar">
+                        <ul class="settings-nav">
+                            <li class="active" data-target="profile">
+                                <i class="fas fa-user"></i> Profil
+                            </li>
+                            <li data-target="account">
+                                <i class="fas fa-lock"></i> Compte
+                            </li>
+                            <li data-target="notifications">
+                                <i class="fas fa-bell"></i> Notifications
+                            </li>
+                            <li data-target="appearance">
+                                <i class="fas fa-paint-brush"></i> Apparence
+                            </li>
+                            <li data-target="integrations">
+                                <i class="fas fa-plug"></i> Intégrations
+                            </li>
+                            <li data-target="security">
+                                <i class="fas fa-shield-alt"></i> Sécurité
+                            </li>
+                            <li data-target="billing">
+                                <i class="fas fa-credit-card"></i> Facturation
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="settings-main">
+                        <!-- Section Profil -->
+                        <div class="settings-section active" id="profile-section">
+                            <h3>Profil</h3>
+                            <form class="settings-form">
+                                <div class="profile-image-container">
+                                    <img src="https://via.placeholder.com/100" alt="Profile" class="profile-image">
+                                    <button type="button" class="btn-secondary">Changer la photo</button>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-name">Nom complet</label>
+                                    <input type="text" id="profile-name" value="Admin User">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-email">Email</label>
+                                    <input type="email" id="profile-email" value="admin@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-phone">Téléphone</label>
+                                    <input type="tel" id="profile-phone" value="+33 6 12 34 56 78">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-bio">Bio</label>
+                                    <textarea id="profile-bio" rows="4">Administrateur système avec plus de 5 ans d'expérience.</textarea>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Section Compte -->
+                        <div class="settings-section" id="account-section">
+                            <h3>Compte</h3>
+                            <form class="settings-form">
+                                <div class="form-group">
+                                    <label for="account-username">Nom d'utilisateur</label>
+                                    <input type="text" id="account-username" value="admin">
+                                </div>
+                                <div class="form-group">
+                                    <label for="account-language">Langue</label>
+                                    <select id="account-language">
+                                        <option value="fr" selected>Français</option>
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                        <option value="de">Deutsch</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="account-timezone">Fuseau horaire</label>
+                                    <select id="account-timezone">
+                                        <option value="Europe/Paris" selected>Europe/Paris (UTC+1)</option>
+                                        <option value="Europe/London">Europe/London (UTC+0)</option>
+                                        <option value="America/New_York">America/New_York (UTC-5)</option>
+                                    </select>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Section Notifications -->
+                        <div class="settings-section" id="notifications-section">
+                            <h3>Notifications</h3>
+                            <form class="settings-form">
+                                <div class="form-group">
+                                    <div class="toggle-container">
+                                        <label for="notif-email">Notifications par email</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="notif-email" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="toggle-container">
+                                        <label for="notif-sms">Notifications par SMS</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="notif-sms">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="toggle-container">
+                                        <label for="notif-browser">Notifications du navigateur</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="notif-browser" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Types de notifications</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notif-new-users" checked>
+                                            <label for="notif-new-users">Nouveaux utilisateurs</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notif-new-orders" checked>
+                                            <label for="notif-new-orders">Nouvelles commandes</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notif-low-stock" checked>
+                                            <label for="notif-low-stock">Stock faible</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notif-system-updates">
+                                            <label for="notif-system-updates">Mises à jour système</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Section Apparence -->
+                        <div class="settings-section" id="appearance-section">
+                            <h3>Apparence</h3>
+                            <form class="settings-form">
+                                <div class="form-group">
+                                    <label>Thème</label>
+                                    <div class="theme-options">
+                                        <div class="theme-option active">
+                                            <div class="theme-preview light-theme"></div>
+                                            <span>Clair</span>
+                                        </div>
+                                        <div class="theme-option">
+                                            <div class="theme-preview dark-theme"></div>
+                                            <span>Sombre</span>
+                                        </div>
+                                        <div class="theme-option">
+                                            <div class="theme-preview system-theme"></div>
+                                            <span>Système</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Couleur d'accent</label>
+                                    <div class="color-options">
+                                        <div class="color-option active" style="background-color: #00843F;"></div>
+                                        <!-- ...autres options de couleur... -->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="toggle-container">
+                                        <label for="compact-mode">Mode compact</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="compact-mode">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Autres sections (placeholder) -->
+                        <div class="settings-section" id="integrations-section">
+                            <h3>Intégrations</h3>
+                            <p>Cette section sera disponible prochainement.</p>
+                        </div>
+
+                        <div class="settings-section" id="security-section">
+                            <h3>Sécurité</h3>
+                            <p>Cette section sera disponible prochainement.</p>
+                        </div>
+
+                        <div class="settings-section" id="billing-section">
+                            <h3>Facturation</h3>
+                            <p>Cette section sera disponible prochainement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+/* Adapted styles from jury.css for projects page with fixed main content and no overflow */
+
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.data-table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto; /* allow horizontal scroll */
+    margin-top: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.data-table {
+    width: 100%;
+    min-width: 100%; /* allow table to expand */
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: auto; /* allow flexible layout */
+}
+
+.data-table th, .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+    white-space: normal; /* allow wrapping */
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.data-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-badge.draft {
+    background-color: #e7f5ff;
+    color: #339af0;
+}
+
+.status-badge.submitted {
+    background-color: #ebfbee;
+    color: #40c057;
+}
+
+.status-badge.under_review {
+    background-color: #fff9db;
+    color: #fcc419;
+}
+
+.status-badge.approved {
+    background-color: #d3f9d8;
+    color: #2b8a3e;
+}
+
+.status-badge.rejected {
+    background-color: #ffe3e3;
+    color: #c92a2a;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    width: 90%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #495057;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #495057;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btn-primary {
+    background-color: #339af0;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #228be6;
+}
+
+.btn-secondary {
+    background-color: #f1f3f5;
+    color: #495057;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-secondary:hover {
+    background-color: #e9ecef;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .data-table-container {
+        overflow-x: auto;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Align action icons horizontally in projects table actions column */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    white-space: nowrap;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.btn-icon:hover {
+    background: #f0f0f0;
+}
+
+.view-btn {
+    color: #339af0;
+}
+
+.edit-btn {
+    color: #51cf66;
+}
+
+.delete-btn {
+    color: #c92a2a;
+}

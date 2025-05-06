@@ -1,0 +1,242 @@
+/* Styles spécifiques aux jurys uniquement */
+
+/* Contenu spécifique jury */
+.jury-content {
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+/* Tableau des jurys */
+.jury-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-top: 1.5rem;
+}
+
+.jury-table table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.jury-table th {
+    background: #f8f9fa;
+    padding: 1rem;
+    font-weight: 600;
+    color: #495057;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.jury-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+}
+
+/* Profil jury */
+.jury-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.jury-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+}
+
+.jury-avatar.president {
+    background: linear-gradient(135deg, #4dabf7, #339af0);
+}
+
+.jury-avatar.member {
+    background: linear-gradient(135deg, #51cf66, #40c057);
+}
+
+.jury-avatar.expert {
+    background: linear-gradient(135deg, #ffd43b, #fcc419);
+}
+
+/* Détails jury */
+.jury-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.jury-name {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.jury-email {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Badges jury */
+.role-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.role-badge.president {
+    background-color: #e7f5ff;
+    color: #339af0;
+}
+
+.role-badge.member {
+    background-color: #ebfbee;
+    color: #40c057;
+}
+
+.role-badge.expert {
+    background-color: #fff9db;
+    color: #fcc419;
+}
+
+/* Stats jury */
+.jury-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+/* Expertise jury */
+.jury-expertise ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.jury-expertise li {
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+/* Modal spécifique aux jurys */
+#jury-modal.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+#jury-modal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    width: 90%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#jury-modal .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#jury-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #495057;
+}
+
+#jury-modal .close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+}
+
+#jury-modal .modal-body {
+    padding: 1.5rem;
+}
+
+#jury-modal .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Responsive spécifique aux données jury */
+@media (max-width: 768px) {
+    .jury-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .jury-expertise ul {
+        flex-direction: column;
+    }
+    
+    .jury-table {
+        overflow-x: auto;
+    }
+    
+    .jury-table table {
+        min-width: 800px;
+    }
+    
+    #jury-modal .modal-content {
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    #jury-modal .modal-body {
+        padding: 1rem;
+    }
+    
+    #jury-modal .modal-footer {
+        flex-direction: column;
+    }
+    
+    #jury-modal .modal-footer button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .jury-profile {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}

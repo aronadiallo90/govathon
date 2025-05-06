@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Produits - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/shared-components.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="data-management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>AdminPro</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="users.html"><i class="fas fa-users"></i> Utilisateurs</a>
+                </li>
+                <li class="active">
+                    <a href="products.html"><i class="fas fa-box"></i> Produits</a>
+                </li>
+                <li>
+                    <a href="data-management.html"><i class="fas fa-database"></i> Gestion des Données</a>
+                </li>
+                <li>
+                    <a href="statistics.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher un produit...">
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <img src="https://via.placeholder.com/40" alt="Profile">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="data-management-content">
+                <div class="data-header">
+                    <h2>Gestion des Produits</h2>
+                    <button id="add-product-btn" class="btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter un produit
+                    </button>
+                </div>
+
+                <div class="data-filters">
+                    <select id="filter-category">
+                        <option value="all">Toutes les catégories</option>
+                        <option value="electronics">Électronique</option>
+                        <option value="clothing">Vêtements</option>
+                        <option value="food">Alimentation</option>
+                        <option value="accessories">Accessoires</option>
+                    </select>
+                    <select id="filter-stock">
+                        <option value="all">Tous les stocks</option>
+                        <option value="in-stock">En stock</option>
+                        <option value="low-stock">Stock faible</option>
+                        <option value="out-of-stock">Rupture de stock</option>
+                    </select>
+                    <button class="btn-secondary">Filtrer</button>
+                </div>
+
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Catégorie</th>
+                                <th>Prix</th>
+                                <th>Stock</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Les données seront injectées ici par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-secondary"><i class="fas fa-chevron-left"></i></button>
+                    <span>Page 1 sur 4</span>
+                    <button class="btn-secondary"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal pour ajouter/modifier un produit -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajouter un produit</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Nom du produit</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Catégorie</label>
+                        <select id="product-category" required>
+                            <option value="electronics">Électronique</option>
+                            <option value="clothing">Vêtements</option>
+                            <option value="food">Alimentation</option>
+                            <option value="accessories">Accessoires</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Prix</label>
+                        <input type="number" id="product-price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Stock</label>
+                        <input type="number" id="product-stock" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Image</label>
+                        <input type="file" id="product-image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" rows="4"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancel-btn">Annuler</button>
+                        <button type="submit" class="btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+</body>
+</html> 

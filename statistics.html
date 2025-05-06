@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques - Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="statistics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>AdminPro</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html"><i class="fas fa-home"></i> Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="users.html"><i class="fas fa-users"></i> Utilisateurs</a>
+                </li>
+                <li>
+                    <a href="products.html"><i class="fas fa-box"></i> Produits</a>
+                </li>
+                <li>
+                    <a href="data-management.html"><i class="fas fa-database"></i> Gestion des Données</a>
+                </li>
+                <li class="active">
+                    <a href="statistics.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="date-filter">
+                        <select id="time-period">
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month" selected>Ce mois</option>
+                            <option value="quarter">Ce trimestre</option>
+                            <option value="year">Cette année</option>
+                        </select>
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <img src="https://via.placeholder.com/40" alt="Profile">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="statistics-content">
+                <div class="stats-cards">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(52, 152, 219, 0.2);">
+                            <i class="fas fa-users" style="color: #3498db;"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>1,234</h3>
+                            <p>Utilisateurs</p>
+                            <span class="trend positive">+12% <i class="fas fa-arrow-up"></i></span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(46, 204, 113, 0.2);">
+                            <i class="fas fa-shopping-cart" style="color: #2ecc71;"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>456</h3>
+                            <p>Commandes</p>
+                            <span class="trend positive">+8% <i class="fas fa-arrow-up"></i></span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(155, 89, 182, 0.2);">
+                            <i class="fas fa-euro-sign" style="color: #9b59b6;"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>€8,459</h3>
+                            <p>Revenus</p>
+                            <span class="trend positive">+15% <i class="fas fa-arrow-up"></i></span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(241, 196, 15, 0.2);">
+                            <i class="fas fa-chart-line" style="color: #f1c40f;"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>78%</h3>
+                            <p>Taux de conversion</p>
+                            <span class="trend negative">-3% <i class="fas fa-arrow-down"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Ventes Mensuelles</h3>
+                            <div class="chart-actions">
+                                <button class="btn-icon active" data-type="line">
+                                    <i class="fas fa-chart-line"></i>
+                                </button>
+                                <button class="btn-icon" data-type="bar">
+                                    <i class="fas fa-chart-bar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Distribution des Produits</h3>
+                            <div class="chart-actions">
+                                <button class="btn-icon active" data-type="doughnut">
+                                    <i class="fas fa-circle"></i>
+                                </button>
+                                <button class="btn-icon" data-type="pie">
+                                    <i class="fas fa-chart-pie"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <canvas id="productsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Trafic des Utilisateurs</h3>
+                            <div class="chart-actions">
+                                <button class="btn-icon active" data-type="area">
+                                    <i class="fas fa-chart-area"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Performance des Catégories</h3>
+                            <div class="chart-actions">
+                                <button class="btn-icon active" data-type="bar">
+                                    <i class="fas fa-chart-bar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <canvas id="categoriesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>Top Produits</h3>
+                        <button class="btn-secondary">Voir tout</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Catégorie</th>
+                                <th>Ventes</th>
+                                <th>Revenus</th>
+                                <th>Tendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-products-body">
+                            <!-- Les données seront injectées ici par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="statistics.js"></script>
+</body>
+</html> 

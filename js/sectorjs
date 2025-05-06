@@ -1,0 +1,484 @@
+// Données des secteurs (à remplacer par des données réelles de l'API)
+const sectorsData = [
+    {
+        id: 1,
+        name: "Technologie",
+        description: "Secteur des technologies de l'information et de la communication",
+        icon: "fa-laptop",
+        stats: {
+            projects: 25,
+            juries: 8
+        }
+    },
+    {
+        id: 2,
+        name: "Santé",
+        description: "Secteur de la santé et du bien-être",
+        icon: "fa-heartbeat",
+        stats: {
+            projects: 18,
+            juries: 6
+        }
+    },
+    {
+        id: 3,
+        name: "Éducation",
+        description: "Secteur de l'éducation et de la formation",
+        icon: "fa-graduation-cap",
+        stats: {
+            projects: 15,
+            juries: 5
+        }
+    }
+];
+
+// Éléments DOM
+const searchInput = document.querySelector('.search-bar input');
+const sectorsGrid = document.querySelector('.sectors-grid');
+const modal = document.getElementById('sectorModal');
+const sectorForm = document.getElementById('sectorForm');
+const closeModalBtn = document.querySelector('.close-modal');
+const cancelBtn = document.getElementById('cancelBtn');
+const iconOptions = document.querySelectorAll('.icon-option');
+const addSectorBtn = document.getElementById('add-sector-btn');
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.querySelector('.sidebar');
+
+// État de l'application
+let currentEditId = null;
+let isEditing = false;
+let selectedIcon = 'fa-laptop';
+
+// Fonction pour afficher une notification
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animation d'entrée
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Suppression après 3 secondes
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Fonction pour afficher les secteurs
+function displaySectors(sectors = sectorsData) {
+    sectorsGrid.innerHTML = '';
+    
+    if (sectors.length === 0) {
+        sectorsGrid.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <p>Aucun secteur ne correspond à votre recherche</p>
+            </div>
+        `;
+        return;
+    }
+    
+    sectors.forEach(sector => {
+        const sectorElement = document.createElement('div');
+        sectorElement.className = 'sector-card';
+        sectorElement.setAttribute('data-id', sector.id);
+        
+        sectorElement.innerHTML = `
+            <div class="sector-header">
+                <i class="fas ${sector.icon} sector-icon"></i>
+                <h3 class="sector-title">${sector.name}</h3>
+            </div>
+            <div class="sector-body">
+                <p class="sector-description">${sector.description}</p>
+                <div class="sector-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">${sector.stats.projects}</span>
+                        <span class="stat-label">Projets</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${sector.stats.juries}</span>
+                        <span class="stat-label">Jurys</span>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-icon edit-btn" title="Modifier" onclick="editSector(${sector.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon delete-btn" title="Supprimer" onclick="deleteSector(${sector.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        sectorsGrid.appendChild(sectorElement);
+    });
+}
+
+// Fonction pour ouvrir le modal
+function openModal(title = 'Ajouter un secteur') {
+    modal.querySelector('.modal-header h3').textContent = title;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Fonction pour fermer le modal
+function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    sectorForm.reset();
+    currentEditId = null;
+    isEditing = false;
+    
+    // Réinitialiser la sélection d'icône
+    iconOptions.forEach(option => option.classList.remove('selected'));
+    document.querySelector(`.icon-option i.fa-${selectedIcon}`).parentElement.classList.add('selected');
+}
+
+// Fonction pour éditer un secteur
+function editSector(id) {
+    const sector = sectorsData.find(s => s.id === id);
+    
+    if (sector) {
+        currentEditId = id;
+        isEditing = true;
+        selectedIcon = sector.icon;
+        openModal('Modifier le secteur');
+        
+        // Remplir le formulaire avec les données du secteur
+        document.getElementById('sectorName').value = sector.name;
+        document.getElementById('sectorDescription').value = sector.description;
+        
+        // Mettre à jour la sélection d'icône
+        iconOptions.forEach(option => option.classList.remove('selected'));
+        document.querySelector(`.icon-option i.fa-${sector.icon}`).parentElement.classList.add('selected');
+    }
+}
+
+// Fonction pour supprimer un secteur
+function deleteSector(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce secteur ?')) {
+        // Logique de suppression (à implémenter avec l'API)
+        console.log('Suppression du secteur:', id);
+        
+        // Mise à jour temporaire de l'interface
+        const sector = document.querySelector(`.sector-card[data-id="${id}"]`);
+        if (sector) {
+            sector.style.opacity = '0';
+            setTimeout(() => {
+                displaySectors();
+                showNotification('Secteur supprimé avec succès');
+            }, 300);
+        }
+    }
+}
+
+// Gestionnaire de recherche avec debounce
+let searchTimeout;
+searchInput.addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredSectors = sectorsData.filter(sector =>
+            sector.name.toLowerCase().includes(searchTerm) ||
+            sector.description.toLowerCase().includes(searchTerm)
+        );
+        
+        displaySectors(filteredSectors);
+    }, 300);
+});
+
+// Gestionnaire de sélection d'icône
+iconOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        iconOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedIcon = option.querySelector('i').className.split(' ')[2].replace('fa-', '');
+    });
+});
+
+// Validation du formulaire
+function validateForm(formData) {
+    const errors = [];
+    
+    if (!formData.name.trim()) {
+        errors.push('Le nom du secteur est requis');
+    }
+    
+    if (!formData.description.trim()) {
+        errors.push('La description est requise');
+    }
+    
+    return errors;
+}
+
+// Gestionnaire de soumission du formulaire
+sectorForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Récupération des données du formulaire
+    const formData = {
+        name: document.getElementById('sectorName').value,
+        description: document.getElementById('sectorDescription').value,
+        icon: selectedIcon
+    };
+    
+    // Validation
+    const errors = validateForm(formData);
+    if (errors.length > 0) {
+        showNotification(errors.join('<br>'), 'error');
+        return;
+    }
+    
+    // Logique de sauvegarde (à implémenter avec l'API)
+    console.log('Données du formulaire:', formData);
+    
+    // Mise à jour temporaire de l'interface
+    if (isEditing) {
+        showNotification('Secteur modifié avec succès');
+    } else {
+        showNotification('Secteur ajouté avec succès');
+    }
+    
+    closeModal();
+    displaySectors();
+});
+
+// Gestionnaires d'événements pour le modal
+closeModalBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
+// Gestionnaire pour le bouton d'ajout
+addSectorBtn.addEventListener('click', () => {
+    openModal();
+});
+
+// Gestionnaire pour le menu mobile
+menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+});
+
+// Ajout des styles pour les notifications
+const style = document.createElement('style');
+style.textContent = `
+    .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+    
+    .notification.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .notification.success {
+        border-left: 4px solid #4caf50;
+    }
+    
+    .notification.error {
+        border-left: 4px solid #f44336;
+    }
+    
+    .notification i {
+        font-size: 1.2rem;
+    }
+    
+    .notification.success i {
+        color: #4caf50;
+    }
+    
+    .notification.error i {
+        color: #f44336;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-results i {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
+    
+    .no-results p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    .sectors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .sector-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .sector-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sector-header {
+        padding: 1.5rem;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .sector-icon {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        background: rgba(67, 97, 238, 0.1);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+    
+    .sector-title {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--text-color);
+    }
+    
+    .sector-body {
+        padding: 1.5rem;
+    }
+    
+    .sector-description {
+        color: #666;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+    
+    .sector-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-value {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+    
+    .btn-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .btn-icon:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .edit-btn {
+        color: var(--primary-color);
+    }
+    
+    .delete-btn {
+        color: #f44336;
+    }
+    
+    .icon-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    
+    .icon-option {
+        width: 50px;
+        height: 50px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .icon-option:hover {
+        border-color: var(--primary-color);
+        background-color: rgba(67, 97, 238, 0.1);
+    }
+    
+    .icon-option.selected {
+        border-color: var(--primary-color);
+        background-color: rgba(67, 97, 238, 0.1);
+        color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .sectors-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', () => {
+    displaySectors();
+}); 
