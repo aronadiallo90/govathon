@@ -15,6 +15,27 @@ try {
 } catch (PDOException $e) {
     $secteurs = [];
 }
+
+// Récupérer le nom de l'utilisateur connecté pour afficher les initiales
+$userName = '';
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT name FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    if ($user) {
+        $userName = $user['name'];
+    }
+}
+
+// Fonction pour obtenir les initiales
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,12 +45,10 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Projets - GOVATHON</title>
     
-     
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="css/data-management.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/jury.css">
-    
 </head>
 <body>
     <div class="container">
@@ -48,8 +67,8 @@ try {
                     <div class="user-info">
                         <i class="fas fa-bell"></i>
                         <div class="user-profile">
-                            <img src="https://via.placeholder.com/40" alt="Profile">
-                            <span>Admin</span>
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
                         </div>
                     </div>
                 </div>

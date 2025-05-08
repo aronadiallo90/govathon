@@ -1,29 +1,57 @@
 <?php
 session_start();
 
-// Verify user is logged in
+// Vérifier que l'utilisateur est connecté
 if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
     header('Location: login.php');
     exit;
 }
 
-// Verify user has admin privileges
+// Vérifier que l'utilisateur a les droits admin ou superadmin
 if (!in_array($_SESSION['user_role'], ['admin', 'superadmin'])) {
     header('Location: login.php');
     exit;
 }
+
+// Fonction pour obtenir les initiales
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
+}
+
+$userName = $_SESSION['user_name'] ?? 'Utilisateur';
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard - Govathon</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        /* Style général pour avatar utilisateur dans le header */
+        .user-profile .jury-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
-
     <div class="container">
         <?php include 'components/navbar.php'; ?>
 
@@ -35,17 +63,16 @@ if (!in_array($_SESSION['user_role'], ['admin', 'superadmin'])) {
                     </button>
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher...">
+                        <input type="text" placeholder="Rechercher..." />
                     </div>
-            <div class="user-info">
-                <i class="fas fa-bell"></i>
-                <div class="user-profile">
-                    <img src="https://via.placeholder.com/40" alt="Profile">
-                    <span><?= htmlspecialchars($_SESSION['user_name'] ?? 'Utilisateur') ?></span>
-                    <p>Role: <?= htmlspecialchars($_SESSION['user_role']) ?></p>
-                    <a href="logout.php" style="margin-left: 10px; color: #f00; text-decoration: none; font-weight: bold;">Se déconnecter</a>
-                </div>
-            </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
+                            <a href="logout.php" style="margin-left: 10px; color: #f00; text-decoration: none; font-weight: bold;">Se déconnecter</a>
+                        </div>
+                    </div>
                 </div>
             </header>
 

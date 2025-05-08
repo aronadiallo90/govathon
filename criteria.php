@@ -1,17 +1,48 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_role'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$userName = $_SESSION['user_name'] ?? 'Admin';
+
+// Fonction pour obtenir les initiales
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gestion des Critères - GOVATHON</title>
-    
-     
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/data-management.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/criteria.css">
-    
-    
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/data-management.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/criteria.css" />
+    <style>
+        .user-profile .jury-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,22 +51,21 @@
         <main class="main-content">
             <header>
                 <div class="header-content">
-                    <button id="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher un projet...">
+                        <input type="text" placeholder="Rechercher un projet..." />
                     </div>
                     <div class="user-info">
                         <i class="fas fa-bell"></i>
                         <div class="user-profile">
-                            <img src="https://via.placeholder.com/40" alt="Profile">
-                            <span>Admin</span>
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
                         </div>
                     </div>
                 </div>
             </header>
+
             <div class="data-management-content">
                 <div class="data-header">
                     <h2>Gestion des Critères</h2>
@@ -85,7 +115,6 @@
                     <!-- Autres groupes... -->
                 </div>
             </div>
-           
         </main>
     </div>
 
@@ -99,7 +128,7 @@
                 <form id="criteriaForm">
                     <div class="form-group">
                         <label for="criteriaName">Nom du critère</label>
-                        <input type="text" id="criteriaName" required>
+                        <input type="text" id="criteriaName" required />
                     </div>
                     <div class="form-group">
                         <label for="criteriaDescription">Description</label>
@@ -107,7 +136,7 @@
                     </div>
                     <div class="form-group">
                         <label for="criteriaWeight">Poids (%)</label>
-                        <input type="number" id="criteriaWeight" min="0" max="100" required>
+                        <input type="number" id="criteriaWeight" min="0" max="100" required />
                     </div>
                     <div class="form-group">
                         <label for="criteriaSector">Secteur</label>

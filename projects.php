@@ -35,6 +35,18 @@ try {
 } catch (PDOException $e) {
     $dynamicFields = [];
 }
+
+$userName = $_SESSION['user_name'] ?? 'Utilisateur';
+
+// Fonction pour obtenir les initiales
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +59,21 @@ try {
     <link rel="stylesheet" href="css/data-management.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/projects.css">
+    <style>
+        .user-profile .jury-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -65,8 +92,8 @@ try {
                     <div class="user-info">
                         <i class="fas fa-bell"></i>
                         <div class="user-profile">
-                            <img src="https://via.placeholder.com/40" alt="Profile">
-                            <span>Admin</span>
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
                         </div>
                     </div>
                 </div>
@@ -102,21 +129,21 @@ try {
 
                 <div class="data-table-container">
                     <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-<th>Email</th>
-                        <th>Secteur</th>
-                        <th>Date de soumission</th>
-                        <th>Statut</th>
-                        <th>Note moyenne</th>
-                        <?php foreach ($dynamicFields as $field): ?>
-                            <th><?= htmlspecialchars($field['field_name']) ?></th>
-                        <?php endforeach; ?>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>User Email</th>
+                                <th>Secteur</th>
+                                <th>Date de soumission</th>
+                                <th>Statut</th>
+                                <th>Note moyenne</th>
+                                <?php foreach ($dynamicFields as $field): ?>
+                                    <th><?= htmlspecialchars($field['field_name']) ?></th>
+                                <?php endforeach; ?>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                         <tbody id="projects-table-body">
                             <!-- Les projets seront chargés dynamiquement via JavaScript -->
                         </tbody>
@@ -159,16 +186,7 @@ try {
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="project-status">Statut</label>
-                        <select id="project-status">
-                            <option value="draft">Brouillon</option>
-                            <option value="submitted">Soumis</option>
-                            <option value="under_review">En cours d'évaluation</option>
-                            <option value="approved">Approuvé</option>
-                            <option value="rejected">Rejeté</option>
-                        </select>
-                    </div>
+                    <!-- Removed status field as per request -->
                     <div class="form-group">
                         <h4>Champs additionnels</h4>
                         <div id="dynamic-fields">
@@ -206,6 +224,6 @@ try {
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/projects1.js"></script>
+    <script src="js/projects.js"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@ try {
             'nom' => $data['project_name'],
             'description' => $data['project_description'],
             'secteur_id' => $data['project_sector'],
-            'status' => $data['project_status'] ?? 'draft',
+            'status' => $data['project_status'] ?? 'submitted',
             'id' => $data['id']
         ];
     } else {
@@ -65,7 +65,7 @@ try {
                 :nom, 
                 :description, 
                 :secteur_id, 
-                :status, 
+                'submitted', 
                 :created_by,
                 NOW()
             )
@@ -75,7 +75,6 @@ try {
             'nom' => $data['project_name'],
             'description' => $data['project_description'],
             'secteur_id' => $data['project_sector'],
-            'status' => $data['project_status'] ?? 'draft',
             'created_by' => $_SESSION['user_id']
         ];
     }
@@ -141,3 +140,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+?>

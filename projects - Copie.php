@@ -233,16 +233,7 @@ foreach ($projects as $project) {
                         <label for="project-description">Description</label>
                         <textarea id="project-description" name="project_description" rows="4" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="project-status">Statut</label>
-                        <select id="project-status" name="project_status" required>
-                            <option value="draft">Brouillon</option>
-                            <option value="submitted">Soumis</option>
-                            <option value="under_review">En cours d'évaluation</option>
-                            <option value="approved">Approuvé</option>
-                            <option value="rejected">Rejeté</option>
-                        </select>
-                    </div>
+                    <!-- Removed status field as per request -->
 
                     <!-- Section des champs dynamiques -->
                     <div class="form-group">

@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Expose functions globally for inline onclick handlers
+    window.editProject = editProject;
+    window.viewProject = viewProject;
+    window.deleteProject = deleteProject;
     // DOM Elements
     const projectsTableBody = document.getElementById('projects-table-body');
     const projectsTableHead = document.querySelector('.data-table thead tr');
@@ -213,7 +217,6 @@ function createProjectRow(project, dynamicFields) {
             project_name: document.getElementById('project-name').value.trim(),
             project_description: document.getElementById('project-description').value.trim(),
             project_sector: document.getElementById('project-sector').value,
-            project_status: document.getElementById('project-status').value,
             dynamic_fields: {}
         };
 
@@ -288,7 +291,8 @@ function createProjectRow(project, dynamicFields) {
                 document.getElementById('project-name').value = project.nom;
                 document.getElementById('project-description').value = project.description;
                 document.getElementById('project-sector').value = project.secteur_id;
-                document.getElementById('project-status').value = project.status;
+                // Removed project-status field usage as it is not in the form anymore
+                // document.getElementById('project-status').value = project.status;
 
                 if (project.dynamic_fields) {
                     const fields = project.dynamic_fields.split('||');
@@ -300,12 +304,62 @@ function createProjectRow(project, dynamicFields) {
                 }
 
                 document.querySelector('.modal-header h3').textContent = 'Modifier le projet';
+
+                // Enable inputs for editing
+                enableFormInputs(true);
             } else {
                 throw new Error(data.message);
             }
         } catch (error) {
             showNotification(error.message, 'error');
         }
+    }
+
+    async function viewProject(id) {
+        try {
+            const response = await fetch(`actions/get_project.php?id=${id}`);
+            const data = await response.json();
+
+            if (data.success) {
+                const project = data.project;
+                openModal();
+                document.getElementById('project-id').value = project.id;
+                document.getElementById('project-name').value = project.nom;
+                document.getElementById('project-description').value = project.description;
+                document.getElementById('project-sector').value = project.secteur_id;
+
+                if (project.dynamic_fields) {
+                    const fields = project.dynamic_fields.split('||');
+                    fields.forEach(field => {
+                        const [fieldName, value] = field.split(':');
+                        const input = document.querySelector(`[name="dynamic_fields[${fieldName}]"]`);
+                        if (input) input.value = value;
+                    });
+                }
+
+                document.querySelector('.modal-header h3').textContent = 'Détails du projet';
+
+                // Disable inputs for viewing
+                enableFormInputs(false);
+            } else {
+                throw new Error(data.message);
+            }
+        } catch (error) {
+            showNotification(error.message, 'error');
+        }
+    }
+
+    function enableFormInputs(enable) {
+        const inputs = projectForm.querySelectorAll('input, textarea, select, button');
+        inputs.forEach(input => {
+            if (input.id === 'cancel-btn') {
+                input.disabled = false; // Always enable cancel button
+            } else if (input.type === 'submit') {
+                input.style.display = enable ? 'inline-block' : 'none'; // Show submit only if enabled
+            } else {
+                input.disabled = !enable;
+            }
+        });
     }
 
     async function deleteProject(id) {

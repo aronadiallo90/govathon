@@ -170,8 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
             email: document.getElementById('jury-email').value.trim(),
             password: document.getElementById('jury-password').value,
             secteur_id: document.getElementById('jury-secteur').value || null,
-            is_global_jury: document.getElementById('jury-is-global').checked,
-            is_active: document.getElementById('jury-status').value === 'active'
+            is_global_jury: document.getElementById('jury-is-global').checked ? 1 : 0,
+            is_active: document.getElementById('jury-status').value === 'active' ? 1 : 0
         };
 
         try {

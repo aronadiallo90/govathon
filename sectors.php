@@ -3,59 +3,58 @@ session_start();
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
-// Debug session
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Check authentication
+// Vérifier les droits d'accès
 if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], ['admin', 'superadmin'])) {
     header('Location: unauthorized.php');
     exit;
 }
 
 try {
-    // Get all sectors with error handling
-    $stmt = $pdo->prepare("
-        SELECT id, nom, description, icon, created_at, updated_at 
-        FROM secteurs 
-        ORDER BY nom ASC
-    ");
-    
+    $stmt = $pdo->prepare("SELECT id, nom, description, icon, created_at, updated_at FROM secteurs ORDER BY nom ASC");
     $stmt->execute();
     $sectors = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    if (empty($sectors)) {
-        error_log("No sectors found in database");
-    }
-    
 } catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
     $sectors = [];
 }
 
-// Debug output
-if (isset($_GET['debug'])) {
-    echo "<pre>";
-    echo "Session: \n";
-    print_r($_SESSION);
-    echo "\nSectors: \n";
-    print_r($sectors);
-    echo "</pre>";
-    exit;
+$userName = $_SESSION['user_name'] ?? 'Utilisateur';
+
+// Fonction pour obtenir les initiales
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gestion des Secteurs - GOVATHON</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Styles communs -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/data-management.css">
-    <link rel="stylesheet" href="css/sectors.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/data-management.css" />
+    <link rel="stylesheet" href="css/sectors.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .user-profile .jury-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -64,18 +63,16 @@ if (isset($_GET['debug'])) {
         <main class="main-content">
             <header>
                 <div class="header-content">
-                    <button id="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher un secteur...">
+                        <input type="text" placeholder="Rechercher un secteur..." />
                     </div>
                     <div class="user-info">
                         <i class="fas fa-bell"></i>
                         <div class="user-profile">
-                            <img src="https://via.placeholder.com/40" alt="Profile">
-                            <span><?= htmlspecialchars($_SESSION['user_name']) ?></span>
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
                         </div>
                     </div>
                 </div>
@@ -116,18 +113,13 @@ if (isset($_GET['debug'])) {
                                 </div>
                             </div>
                             <p class="sector-description"><?= htmlspecialchars($sector['description']) ?></p>
-                            <!-- <div class="sector-footer">
-                                <span class="sector-date">
-                                    Créé le <?= date('d/m/Y', strtotime($sector['created_at'])) ?>
-                                </span>
-                            </div> -->
                         </div>
                     <?php endforeach; ?>
                 </div>
             </div>
         </main>
     </div>
-    
+
     <!-- Modal pour ajouter/modifier un secteur -->
     <div id="sectorModal" class="modal">
         <div class="modal-content">
@@ -139,7 +131,7 @@ if (isset($_GET['debug'])) {
                 <form id="sectorForm">
                     <div class="form-group">
                         <label for="sectorName">Nom du secteur</label>
-                        <input type="text" id="sectorName" required>
+                        <input type="text" id="sectorName" required />
                     </div>
                     <div class="form-group">
                         <label for="sectorDescription">Description</label>
@@ -194,8 +186,7 @@ if (isset($_GET['debug'])) {
             </div>
         </div>
     </div>
-    
-    <!-- Scripts -->
+
     <script src="js/sectors.js"></script>
 </body>
 </html>

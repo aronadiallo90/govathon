@@ -15,14 +15,14 @@ if (!isset($_SESSION['user_role'])) {
 $dynamicFields = [];
 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
     try {
-$stmt = $pdo->query('SELECT field_name FROM dynamic_fields ORDER BY id ASC');
+        $stmt = $pdo->query('SELECT field_name FROM dynamic_fields ORDER BY id ASC');
         $dynamicFields = $stmt->fetchAll(PDO::FETCH_COLUMN);
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
 }
 ?>
-<nav class="sidebar">
+<nav class="sidebar" style="overflow-y: auto; max-height: 100vh;">
     <div class="logo">
         <i class="fas fa-code"></i>
         <span>GOVATHON</span>
@@ -65,6 +65,9 @@ $stmt = $pdo->query('SELECT field_name FROM dynamic_fields ORDER BY id ASC');
         </li>
         <li>
             <a href="settings.php"><i class="fas fa-cog"></i> Paramètres</a>
+        </li>
+        <li>
+            <a href="users.php"><i class="fas fa-users"></i> Gestion des Utilisateurs</a>
         </li>
         <?php if (isSuperAdmin()): ?>
         <li>
