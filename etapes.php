@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
 // Vérification de l'authentification
 if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], ['admin', 'superadmin'])) {
@@ -326,24 +327,8 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php include 'components/navbar.php'; ?>
 
         <main class="main-content">
-            <header>
-                <div class="header-content">
-                    <button id="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher une étape...">
-                    </div>
-                    <div class="user-info">
-                        <i class="fas fa-bell"></i>
-                        <div class="user-profile">
-                            <img src="https://via.placeholder.com/40" alt="Profile">
-                            <span><?php echo htmlspecialchars($_SESSION['user_name'] ?? 'Utilisateur'); ?></span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+                        <?php include 'components/header.php'; ?>
+
 
             <div class="etapes-content">
                 <div class="content-header">

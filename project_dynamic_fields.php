@@ -7,15 +7,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'superadmin') {
 
 $userName = $_SESSION['user_name'] ?? 'Superadmin';
 
-// Fonction pour obtenir les initiales
-function getInitials($name) {
-    $words = explode(' ', $name);
-    $initials = '';
-    foreach ($words as $word) {
-        $initials .= mb_substr($word, 0, 1);
-    }
-    return mb_strtoupper($initials);
-}
+require_once 'includes/functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">

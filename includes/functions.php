@@ -45,3 +45,12 @@ function isSuperAdmin() {
 function isAdmin() {
     return isset($_SESSION['user_role']) && in_array($_SESSION['user_role'], ['admin', 'superadmin']);
 }
+
+function getInitials($name) {
+    $words = explode(' ', $name);
+    $initials = '';
+    foreach ($words as $word) {
+        $initials .= mb_substr($word, 0, 1);
+    }
+    return mb_strtoupper($initials);
+}

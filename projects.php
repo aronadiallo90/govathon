@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
 // Define getStatusLabel function first
 function getStatusLabel($status) {
@@ -37,16 +38,6 @@ try {
 }
 
 $userName = $_SESSION['user_name'] ?? 'Utilisateur';
-
-// Fonction pour obtenir les initiales
-function getInitials($name) {
-    $words = explode(' ', $name);
-    $initials = '';
-    foreach ($words as $word) {
-        $initials .= mb_substr($word, 0, 1);
-    }
-    return mb_strtoupper($initials);
-}
 ?>
 
 <!DOCTYPE html>
@@ -80,24 +71,8 @@ function getInitials($name) {
         <?php include 'components/navbar.php'; ?>
 
         <main class="main-content">
-            <header>
-                <div class="header-content">
-                    <button id="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Rechercher un projet...">
-                    </div>
-                    <div class="user-info">
-                        <i class="fas fa-bell"></i>
-                        <div class="user-profile">
-                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
-                            <span><?= htmlspecialchars($userName) ?></span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+                        <?php include 'components/header.php'; ?>
+
 
             <div class="data-management-content">
                 <div class="data-header">

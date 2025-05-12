@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
 // Vérifier les droits d'accès (même logique que sectors.php)
 if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], ['admin', 'superadmin'])) {
@@ -25,16 +26,6 @@ if (isset($_SESSION['user_id'])) {
     if ($user) {
         $userName = $user['name'];
     }
-}
-
-// Fonction pour obtenir les initiales
-function getInitials($name) {
-    $words = explode(' ', $name);
-    $initials = '';
-    foreach ($words as $word) {
-        $initials .= mb_substr($word, 0, 1);
-    }
-    return mb_strtoupper($initials);
 }
 ?>
 
