@@ -32,6 +32,9 @@ CREATE TABLE etapes (
     nom VARCHAR(100) NOT NULL,
     description TEXT,
     ordre INT NOT NULL,
+    date_debut DATE NOT NULL,
+    date_fin DATE NOT NULL,
+    etat ENUM('pending', 'active', 'completed') NOT NULL DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -151,6 +154,13 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Données initiales pour l'administrateur
 INSERT INTO admins (name, email, password, is_superadmin) VALUES 
 ('Super Admin', 'superadmin@example.com', '$2y$10$jUsESY5l874AGuUAyPbUC.WMBTPoRFgA/b.yUE3vazEWsCX6cnD4S', 1);
+
+-- Données initiales pour les étapes
+INSERT INTO etapes (nom, description, ordre, date_debut, date_fin, etat) VALUES 
+('Présélection', 'Première phase de sélection des projets', 1, '2024-05-01', '2024-05-15', 'pending'),
+('Qualification', 'Phase de qualification des projets retenus', 2, '2024-05-16', '2024-05-31', 'pending'),
+('Demi-finale', 'Phase de demi-finale', 3, '2024-06-01', '2024-06-15', 'pending'),
+('Finale', 'Phase finale du concours', 4, '2024-06-16', '2024-06-30', 'pending');
 
 -- Index pour améliorer les performances
 CREATE INDEX idx_projects_secteur ON projects(secteur_id);

@@ -11,61 +11,33 @@
     --text-color: #2b2d42;
 }
 
-/* Styles généraux */
-.stages-content {
+/* Contenu principal */
+.etapes-content {
     padding: 2rem;
 }
 
-/* En-tête */
-.content-header {
+.etapes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border-radius: 8px;
-    padding: 8px 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search-bar input {
-    border: none;
-    outline: none;
-    padding: 8px;
-    width: 300px;
-}
-
-.search-bar i {
-    color: #666;
-    margin-right: 8px;
+.etapes-header h2 {
+    margin: 0;
+    color: var(--text-color);
 }
 
 /* Timeline des étapes */
-.stages-timeline {
+.etapes-timeline {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     max-width: 800px;
     margin: 0 auto;
-    position: relative;
 }
 
-.stages-timeline::before {
-    content: '';
-    position: absolute;
-    left: -30px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border-color);
-}
-
-.stage-card {
+.etape-card {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -74,15 +46,15 @@
     position: relative;
 }
 
-.stage-card:hover {
+.etape-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.stage-card::before {
+.etape-card::before {
     content: '';
     position: absolute;
-    left: -30px;
+    left: -20px;
     top: 50%;
     width: 12px;
     height: 12px;
@@ -91,24 +63,24 @@
     transform: translateY(-50%);
 }
 
-.stage-header {
+.etape-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1rem;
 }
 
-.stage-info {
+.etape-info {
     flex: 1;
 }
 
-.stage-info h3 {
+.etape-info h3 {
     margin: 0 0 0.5rem 0;
     color: var(--text-color);
     font-size: 1.2rem;
 }
 
-.stage-status {
+.etape-status {
     display: inline-block;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
@@ -116,22 +88,22 @@
     font-weight: 500;
 }
 
-.stage-status.pending {
+.etape-status.pending {
     background-color: rgba(108, 117, 125, 0.1);
     color: var(--secondary-color);
 }
 
-.stage-status.active {
+.etape-status.active {
     background-color: rgba(40, 167, 69, 0.1);
     color: var(--success-color);
 }
 
-.stage-status.completed {
+.etape-status.completed {
     background-color: rgba(255, 193, 7, 0.1);
     color: var(--warning-color);
 }
 
-.stage-actions {
+.etape-actions {
     display: flex;
     gap: 0.5rem;
 }
@@ -149,90 +121,38 @@
     background-color: var(--light-gray);
 }
 
-.edit-stage {
+.edit-etape {
     color: var(--primary-color);
 }
 
-.delete-stage {
+.delete-etape {
     color: var(--danger-color);
 }
 
-.stage-details {
+.etape-details {
     color: #666;
 }
 
-.stage-details p {
+.etape-details p {
     margin: 0 0 1rem 0;
     line-height: 1.5;
 }
 
-.stage-meta {
+.etape-meta {
     display: flex;
     gap: 1.5rem;
     font-size: 0.9rem;
     color: #666;
 }
 
-.stage-meta span {
+.etape-meta span {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.stage-meta i {
+.etape-meta i {
     color: var(--primary-color);
-}
-
-/* Badges de statut */
-.status-badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-weight: 500;
-}
-
-.status-badge.completed {
-    background: #d4edda;
-    color: #155724;
-}
-
-.status-badge.current {
-    background: #cce5ff;
-    color: #004085;
-}
-
-.status-badge.pending {
-    background: #fff3cd;
-    color: #856404;
-}
-
-/* Boutons d'action */
-.action-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 15px;
-}
-
-.btn-icon {
-    background: none;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.btn-icon:hover {
-    background: #f0f0f0;
-}
-
-.edit-btn {
-    color: #007bff;
-}
-
-.delete-btn {
-    color: #dc3545;
 }
 
 /* Modal */
@@ -330,44 +250,57 @@
     margin-top: 2rem;
 }
 
-/* Sélecteur de date */
-.date-input {
+/* Boutons */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
 }
 
-.date-input input {
-    flex: 1;
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .content-header {
+    .etapes-header {
         flex-direction: column;
-        gap: 20px;
+        gap: 1rem;
     }
 
-    .search-bar {
+    .etapes-header .btn-primary {
         width: 100%;
-    }
-
-    .search-bar input {
-        width: 100%;
-    }
-
-    .stages-timeline::before {
-        left: -20px;
-    }
-
-    .stage-card::before {
-        left: -20px;
+        justify-content: center;
     }
 
     .form-row {
         grid-template-columns: 1fr;
     }
 
-    .stage-meta {
+    .etape-meta {
         flex-direction: column;
         gap: 0.5rem;
     }
@@ -375,29 +308,6 @@
     .modal-content {
         width: 95%;
         margin: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .btn-icon {
-        width: 100%;
-        text-align: center;
-    }
-
-    .form-actions {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-    }
-
-    .date-input {
-        flex-direction: column;
     }
 }
 
@@ -413,6 +323,6 @@
     }
 }
 
-.stage-card {
+.etape-card {
     animation: fadeIn 0.3s ease-out;
 } 

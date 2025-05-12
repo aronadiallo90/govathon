@@ -81,6 +81,9 @@ CREATE TABLE `etapes` (
   `nom` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `ordre` int(11) NOT NULL,
+  `date_debut` date NOT NULL,
+  `date_fin` date NOT NULL,
+  `etat` enum('pending','active','completed') NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -89,11 +92,11 @@ CREATE TABLE `etapes` (
 -- Déchargement des données de la table `etapes`
 --
 
-INSERT INTO `etapes` (`id`, `nom`, `description`, `ordre`, `created_at`, `updated_at`) VALUES
-(1, 'Présélection', 'Première phase de sélection des projets', 1, '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
-(2, 'Qualification', 'Phase de qualification des projets retenus', 2, '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
-(3, 'Demi-finale', 'Phase de demi-finale', 3, '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
-(4, 'Finale', 'Phase finale du concours', 4, '2025-05-05 12:50:47', '2025-05-05 12:50:47');
+INSERT INTO `etapes` (`id`, `nom`, `description`, `ordre`, `date_debut`, `date_fin`, `etat`, `created_at`, `updated_at`) VALUES
+(1, 'Présélection', 'Première phase de sélection des projets', 1, '2024-05-01', '2024-05-15', 'pending', '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
+(2, 'Qualification', 'Phase de qualification des projets retenus', 2, '2024-05-16', '2024-05-31', 'pending', '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
+(3, 'Demi-finale', 'Phase de demi-finale', 3, '2024-06-01', '2024-06-15', 'pending', '2025-05-05 12:50:47', '2025-05-05 12:50:47'),
+(4, 'Finale', 'Phase finale du concours', 4, '2024-06-16', '2024-06-30', 'pending', '2025-05-05 12:50:47', '2025-05-05 12:50:47');
 
 -- --------------------------------------------------------
 

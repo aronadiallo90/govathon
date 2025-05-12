@@ -34,13 +34,41 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
                 <span>Tableau de bord</span>
             </a>
         </li>
+        
+        <!-- Gestion des projets -->
+        <li class="nav-section">
+            <span class="nav-section-title">Gestion des Projets</span>
+        </li>
         <li>
             <a href="projects.php">
                 <i class="fas fa-project-diagram"></i>
                 <span>Projets</span>
             </a>
         </li>
+        <li>
+            <a href="criteria.php">
+                <i class="fas fa-list-check"></i>
+                <span>Critères</span>
+            </a>
+        </li>
+        <li>
+            <a href="votes.php">
+                <i class="fas fa-vote-yea"></i>
+                <span>Votes</span>
+            </a>
+        </li>
+        <li>
+            <a href="etapes.php">
+                <i class="fas fa-tasks"></i>
+                <span>Étapes</span>
+            </a>
+        </li>
+
         <?php if (isAdmin()): ?>
+        <!-- Administration -->
+        <li class="nav-section">
+            <span class="nav-section-title">Administration</span>
+        </li>
         <li>
             <a href="sectors.php">
                 <i class="fas fa-building"></i>
@@ -53,23 +81,19 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
                 <span>Jury</span>
             </a>
         </li>
+        <li>
+            <a href="users.php">
+                <i class="fas fa-users"></i>
+                <span>Utilisateurs</span>
+            </a>
+        </li>
         <?php endif; ?>
-        <li>
-            <a href="criteria.php"><i class="fas fa-list-check"></i> Critères</a>
-        </li>
-        <li>
-            <a href="votes.php"><i class="fas fa-vote-yea"></i> Votes</a>
-        </li>
-        <li>
-            <a href="stages.php"><i class="fas fa-tasks"></i> Étapes</a>
-        </li>
-        <li>
-            <a href="settings.php"><i class="fas fa-cog"></i> Paramètres</a>
-        </li>
-        <li>
-            <a href="users.php"><i class="fas fa-users"></i> Gestion des Utilisateurs</a>
-        </li>
+
         <?php if (isSuperAdmin()): ?>
+        <!-- Configuration avancée -->
+        <li class="nav-section">
+            <span class="nav-section-title">Configuration</span>
+        </li>
         <li>
             <a href="project_dynamic_fields.php">
                 <i class="fas fa-puzzle-piece"></i>
@@ -80,6 +104,12 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
             <a href="user_permissions.php">
                 <i class="fas fa-user-shield"></i>
                 <span>Gestion des Droits</span>
+            </a>
+        </li>
+        <li>
+            <a href="settings.php">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
             </a>
         </li>
         <?php endif; ?>

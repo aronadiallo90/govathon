@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOVATHON - Hackathon d'Innovation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        /* Base Mobile First Styles */
+        :root {
+            /* Couleurs principales */
+            --primary-color: #00843F;
+            --primary-dark: #006632;
+            --primary-light: #e6f2eb;
+            
+            /* Couleurs de fond */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-hover: #f1f5f9;
+            
+            /* Couleurs de texte */
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #ffffff;
+            
+            /* Espacement */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Tailles de police */
+            --font-size-xs: 0.875rem;
+            --font-size-sm: 1rem;
+            --font-size-md: 1.25rem;
+            --font-size-lg: 1.5rem;
+            --font-size-xl: 2rem;
+            --font-size-2xl: 2.5rem;
+            --font-size-3xl: 3rem;
+            
+            /* Breakpoints */
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 var(--spacing-sm);
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-sm);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            color: var(--text-light);
+            z-index: 2;
+            padding: var(--spacing-md);
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-2xl);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.9;
+        }
+
+        /* Buttons */
+        .cta-button,
+        .submit-button {
+            display: inline-block;
+            width: 100%;
+            max-width: 300px;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--primary-color);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+        }
+
+        .cta-button:hover,
+        .submit-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 132, 63, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: var(--spacing-xl) var(--spacing-sm);
+            position: relative;
+            background: var(--bg-primary);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        /* Prizes Grid */
+        .prizes {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            padding: 0 var(--spacing-sm);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .prize-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-lg);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .prize-icon {
+            font-size: var(--font-size-2xl);
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-md) 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            opacity: 0.3;
+        }
+
+        .timeline-item {
+            width: 100%;
+            padding: var(--spacing-sm);
+            position: relative;
+        }
+
+        .timeline-content {
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            left: -60px;
+            z-index: 1;
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: auto;
+            right: -60px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+                width: 2px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-content {
+                width: 100%;
+                padding: var(--spacing-sm);
+            }
+
+            .timeline-content::before {
+                left: -45px;
+                width: 15px;
+                height: 15px;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -45px;
+                right: auto;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .timeline::after {
+                left: 21px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+                padding-right: 15px;
+            }
+
+            .timeline-content::before {
+                left: -35px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -35px;
+            }
+        }
+
+        /* Form */
+        .submit-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+            background: var(--bg-primary);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: var(--font-size-sm);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        /* Responsive Breakpoints */
+        @media screen and (min-width: 576px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .hero h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .hero p {
+                font-size: var(--font-size-lg);
+            }
+
+            .cta-button,
+            .submit-button {
+                width: auto;
+                min-width: 200px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+
+            .hero {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+
+            .section {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+
+            .prizes {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-lg);
+            }
+
+            .timeline-item {
+                width: 50%;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 50%;
+            }
+
+            .timeline-content {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+
+            .hero h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .prizes {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .submit-form {
+                padding: var(--spacing-xl);
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+
+            .hero {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+
+            .section {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) {
+            .cta-button:hover,
+            .submit-button:hover,
+            .prize-card:hover {
+                transform: none;
+            }
+
+            .cta-button:active,
+            .submit-button:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .hero,
+            .section {
+                min-height: auto;
+                padding: var(--spacing-md);
+            }
+
+            .cta-button,
+            .submit-button {
+                display: none;
+            }
+
+            .prize-card {
+                break-inside: avoid;
+            }
+        }
+
+        /* Animations */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); }
+        }
+
+        .math-symbol {
+            position: absolute;
+            color: rgba(255,255,255,0.2);
+            font-size: var(--font-size-xl);
+            animation: floatSymbol 15s infinite linear;
+        }
+
+        @keyframes floatSymbol {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: particleFloat 10s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translate(0, 0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+
+        .chemical-formula {
+            position: absolute;
+            font-family: 'Times New Roman', serif;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: var(--font-size-xl);
+            white-space: nowrap;
+            animation: formulaForm 5s linear infinite;
+        }
+
+        .chemical-bond {
+            position: absolute;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transform-origin: left center;
+            animation: bondForm 2s linear infinite;
+        }
+
+        .chemical-atom {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            animation: atomPulse 2s infinite alternate;
+        }
+
+        @keyframes formulaForm {
+            0% { opacity: 0; transform: scale(0.5); }
+            20% { opacity: 0.5; transform: scale(1); }
+            80% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        @keyframes bondForm {
+            0% { transform: scaleX(0); opacity: 0; }
+            50% { transform: scaleX(1); opacity: 0.5; }
+            100% { transform: scaleX(0); opacity: 0; }
+        }
+
+        @keyframes atomPulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+            100% { transform: scale(1.2); box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+        }
+
+        .code-animation {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            color: rgba(0, 255, 0, 0.2);
+            font-size: var(--font-size-sm);
+            white-space: pre;
+            animation: codeType 4s steps(40) infinite;
+            overflow: hidden;
+            border-right: 2px solid rgba(0, 255, 0, 0.3);
+        }
+
+        @keyframes codeType {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        .html-tag {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            color: rgba(255, 165, 0, 0.3);
+            font-size: var(--font-size-sm);
+            white-space: pre;
+            animation: tagWrite 3s steps(30) infinite;
+            overflow: hidden;
+            border-right: 2px solid rgba(255, 165, 0, 0.5);
+        }
+
+        .c-code {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            color: rgba(0, 191, 255, 0.3);
+            font-size: var(--font-size-sm);
+            white-space: pre;
+            animation: codeWrite 4s steps(40) infinite;
+            overflow: hidden;
+            border-right: 2px solid rgba(0, 191, 255, 0.5);
+        }
+
+        @keyframes tagWrite, codeWrite {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        /* Hero Section Animations */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: backgroundMove 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .hero h1 {
+            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.6); }
+        }
+
+        .hero p {
+            animation: fadeInUp 1s ease 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Animations */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Optimisations pour les appareils à faible performance */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Optimisations pour les écrans haute résolution */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .hero::before,
+            .section::before {
+                background-size: 30px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="floating-shapes">
+            <!-- Les formes seront ajoutées dynamiquement par JavaScript -->
+        </div>
+        <div class="hero-content" data-aos="fade-up">
+            <h1>GOVATHON</h1>
+            <p>L'innovation au service du bien public</p>
+            <a href="#submit" class="cta-button">Participer maintenant</a>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <h2 class="section-title" data-aos="fade-up">À propos du hackathon</h2>
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-content">
+                    <h3>Phase 1 : Inscription</h3>
+                    <p>Inscrivez votre équipe et présentez votre projet innovant</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-content">
+                    <h3>Phase 2 : Développement</h3>
+                    <p>48 heures pour développer votre solution</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-content">
+                    <h3>Phase 3 : Présentation</h3>
+                    <p>Présentez votre projet devant notre jury d'experts</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="prizes">
+        <h2 class="section-title" data-aos="fade-up">Les prix à gagner</h2>
+        <div class="prizes">
+            <div class="prize-card" data-aos="fade-up">
+                <i class="fas fa-trophy prize-icon"></i>
+                <h3>1er Prix</h3>
+                <p>10 000€ + Accompagnement professionnel</p>
+            </div>
+            <div class="prize-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-medal prize-icon"></i>
+                <h3>2ème Prix</h3>
+                <p>5 000€ + Mentorat</p>
+            </div>
+            <div class="prize-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-award prize-icon"></i>
+                <h3>3ème Prix</h3>
+                <p>2 500€ + Incubation</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="submit">
+        <h2 class="section-title" data-aos="fade-up">Soumettre votre projet</h2>
+        <form class="submit-form" data-aos="fade-up">
+            <div class="form-group">
+                <label for="team-name">Nom de l'équipe</label>
+                <input type="text" id="team-name" required>
+            </div>
+            <div class="form-group">
+                <label for="project-name">Nom du projet</label>
+                <input type="text" id="project-name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description du projet</label>
+                <textarea id="description" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="email">Email de contact</label>
+                <input type="email" id="email" required>
+            </div>
+            <button type="submit" class="submit-button">Soumettre</button>
+        </form>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialisation des animations AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Création des formes flottantes et symboles mathématiques
+        const shapesContainer = document.querySelector('.floating-shapes');
+        const mathSymbols = ['∑', 'π', '∞', '∫', 'Δ', '∇', '√', '∏', '∮', '∂'];
+        
+        // Ajout des formes géométriques
+        for (let i = 0; i < 20; i++) {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.style.width = Math.random() * 100 + 50 + 'px';
+            shape.style.height = shape.style.width;
+            shape.style.left = Math.random() * 100 + '%';
+            shape.style.top = Math.random() * 100 + '%';
+            shape.style.animationDelay = Math.random() * 20 + 's';
+            shapesContainer.appendChild(shape);
+        }
+
+        // Ajout des symboles mathématiques
+        for (let i = 0; i < 15; i++) {
+            const symbol = document.createElement('div');
+            symbol.className = 'math-symbol';
+            symbol.textContent = mathSymbols[Math.floor(Math.random() * mathSymbols.length)];
+            symbol.style.left = Math.random() * 100 + '%';
+            symbol.style.top = Math.random() * 100 + '%';
+            symbol.style.animationDelay = Math.random() * 15 + 's';
+            shapesContainer.appendChild(symbol);
+        }
+
+        // Ajout des particules
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
+            particle.style.setProperty('--ty', (Math.random() * 200 - 100) + 'px');
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            shapesContainer.appendChild(particle);
+        }
+
+        // Ajout des molécules chimiques animées
+        const molecules = [
+            {
+                atoms: [
+                    { symbol: 'H', x: 50, y: 50 },
+                    { symbol: 'O', x: 100, y: 50 },
+                    { symbol: 'H', x: 150, y: 50 }
+                ],
+                bonds: [
+                    { start: 0, end: 1 },
+                    { start: 1, end: 2 }
+                ]
+            },
+            {
+                atoms: [
+                    { symbol: 'C', x: 50, y: 50 },
+                    { symbol: 'O', x: 100, y: 50 },
+                    { symbol: 'O', x: 150, y: 50 }
+                ],
+                bonds: [
+                    { start: 0, end: 1, double: true },
+                    { start: 1, end: 2 }
+                ]
+            },
+            {
+                atoms: [
+                    { symbol: 'N', x: 50, y: 50 },
+                    { symbol: 'H', x: 100, y: 30 },
+                    { symbol: 'H', x: 100, y: 70 },
+                    { symbol: 'H', x: 150, y: 50 }
+                ],
+                bonds: [
+                    { start: 0, end: 1 },
+                    { start: 0, end: 2 },
+                    { start: 0, end: 3 }
+                ]
+            }
+        ];
+
+        for (let i = 0; i < 5; i++) {
+            const molecule = molecules[Math.floor(Math.random() * molecules.length)];
+            const container = document.createElement('div');
+            container.className = 'molecule-container';
+            container.style.top = Math.random() * 100 + '%';
+            container.style.left = Math.random() * 100 + '%';
+            container.style.setProperty('--tx', (Math.random() * 200 - 100) + 'vw');
+            container.style.setProperty('--ty', (Math.random() * 200 - 100) + 'vh');
+            container.style.animationDelay = Math.random() * 15 + 's';
+
+            // Création des atomes
+            molecule.atoms.forEach(atom => {
+                const atomElement = document.createElement('div');
+                atomElement.className = 'chemical-atom';
+                atomElement.textContent = atom.symbol;
+                atomElement.style.left = atom.x + 'px';
+                atomElement.style.top = atom.y + 'px';
+                container.appendChild(atomElement);
+            });
+
+            // Création des liaisons
+            molecule.bonds.forEach(bond => {
+                const startAtom = molecule.atoms[bond.start];
+                const endAtom = molecule.atoms[bond.end];
+                
+                const bondElement = document.createElement('div');
+                bondElement.className = 'chemical-bond';
+                
+                // Calcul de la position et de la rotation de la liaison
+                const dx = endAtom.x - startAtom.x;
+                const dy = endAtom.y - startAtom.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                
+                bondElement.style.width = length + 'px';
+                bondElement.style.left = startAtom.x + 'px';
+                bondElement.style.top = (startAtom.y + 15) + 'px';
+                bondElement.style.transform = `rotate(${angle}deg)`;
+                
+                if (bond.double) {
+                    const secondBond = bondElement.cloneNode();
+                    secondBond.style.top = (startAtom.y + 20) + 'px';
+                    container.appendChild(secondBond);
+                }
+                
+                container.appendChild(bondElement);
+            });
+
+            shapesContainer.appendChild(container);
+        }
+
+        // Ajout des formules chimiques qui se forment
+        const chemicalFormulas = [
+            'H₂O',
+            'CO₂',
+            'CH₄',
+            'NH₃',
+            'H₂SO₄',
+            'C₆H₁₂O₆',
+            'NaCl',
+            'Fe₂O₃'
+        ];
+
+        for (let i = 0; i < 8; i++) {
+            const formula = document.createElement('div');
+            formula.className = 'chemical-formula';
+            formula.textContent = chemicalFormulas[Math.floor(Math.random() * chemicalFormulas.length)];
+            formula.style.top = Math.random() * 100 + '%';
+            formula.style.left = Math.random() * 100 + '%';
+            formula.style.animationDelay = Math.random() * 5 + 's';
+            shapesContainer.appendChild(formula);
+        }
+
+        // Création de l'hélice d'ADN
+        const dnaContainer = document.createElement('div');
+        dnaContainer.className = 'dna-helix';
+        shapesContainer.appendChild(dnaContainer);
+
+        for (let i = 0; i < 2; i++) {
+            const strand = document.createElement('div');
+            strand.className = 'dna-strand';
+            strand.style.left = (50 + (i * 20)) + '%';
+            dnaContainer.appendChild(strand);
+
+            for (let j = 0; j < 10; j++) {
+                const base = document.createElement('div');
+                base.className = 'dna-base';
+                base.style.top = (j * 10) + '%';
+                base.style.animationDelay = (j * 0.2) + 's';
+                strand.appendChild(base);
+            }
+        }
+
+        // Effet Matrix
+        const matrixContainer = document.createElement('div');
+        matrixContainer.className = 'matrix-rain';
+        shapesContainer.appendChild(matrixContainer);
+
+        for (let i = 0; i < 20; i++) {
+            const column = document.createElement('div');
+            column.className = 'matrix-column';
+            column.style.left = (i * 5) + '%';
+            column.style.animationDelay = Math.random() * 3 + 's';
+            
+            // Génération de caractères aléatoires
+            let content = '';
+            for (let j = 0; j < 20; j++) {
+                content += String.fromCharCode(0x30A0 + Math.random() * 96) + '<br>';
+            }
+            column.innerHTML = content;
+            
+            matrixContainer.appendChild(column);
+        }
+
+        // Ajout des animations de code
+        const codeSnippets = [
+            `function calculate() {
+    const result = Math.pow(2, 10);
+    return result;
+}`,
+            `class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}`,
+            `const formula = (a, b) => {
+    return Math.sqrt(a*a + b*b);
+}`
+        ];
+
+        for (let i = 0; i < 5; i++) {
+            const code = document.createElement('div');
+            code.className = 'code-animation';
+            code.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            code.style.top = Math.random() * 100 + '%';
+            code.style.left = Math.random() * 100 + '%';
+            code.style.animationDelay = Math.random() * 5 + 's';
+            shapesContainer.appendChild(code);
+        }
+
+        // Ajout des formules qui s'écrivent
+        const formulas = [
+            'E = mc²',
+            'F = ma',
+            'PV = nRT',
+            '∫f(x)dx',
+            '∑(n=1 to ∞)'
+        ];
+
+        for (let i = 0; i < 8; i++) {
+            const formula = document.createElement('div');
+            formula.className = 'formula-animation';
+            formula.textContent = formulas[Math.floor(Math.random() * formulas.length)];
+            formula.style.top = Math.random() * 100 + '%';
+            formula.style.left = Math.random() * 100 + '%';
+            formula.style.animationDelay = Math.random() * 3 + 's';
+            shapesContainer.appendChild(formula);
+        }
+
+        // Ajout des atomes avec électrons
+        for (let i = 0; i < 5; i++) {
+            const atom = document.createElement('div');
+            atom.className = 'atom';
+            atom.style.top = Math.random() * 100 + '%';
+            atom.style.left = Math.random() * 100 + '%';
+            atom.style.animationDelay = Math.random() * 10 + 's';
+
+            // Ajout des électrons
+            for (let j = 0; j < 3; j++) {
+                const electron = document.createElement('div');
+                electron.className = 'electron';
+                electron.style.animationDelay = (j * 0.5) + 's';
+                atom.appendChild(electron);
+            }
+
+            shapesContainer.appendChild(atom);
+        }
+
+        // Ajout des avions
+        for (let i = 0; i < 3; i++) {
+            const airplane = document.createElement('div');
+            airplane.className = 'airplane';
+            airplane.style.top = Math.random() * 100 + '%';
+            airplane.style.left = Math.random() * 100 + '%';
+            airplane.style.animationDelay = Math.random() * 15 + 's';
+            shapesContainer.appendChild(airplane);
+
+            // Ajout de la traînée de particules
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle-trail';
+                particle.style.top = airplane.offsetTop + 'px';
+                particle.style.left = airplane.offsetLeft + 'px';
+                shapesContainer.appendChild(particle);
+
+                // Suppression de la particule après l'animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }, 100);
+        }
+
+        // Ajout des balises HTML qui s'écrivent
+        const htmlTags = [
+            `<div class="container">
+    <h1>Hello World</h1>
+    <p>Welcome to our site</p>
+</div>`,
+            `<nav class="main-nav">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+</nav>`,
+            `<form class="contact-form">
+    <input type="text" placeholder="Name">
+    <button type="submit">Send</button>
+</form>`,
+            `<section class="hero">
+    <div class="content">
+        <h2>Welcome</h2>
+        <p>Discover more</p>
+    </div>
+</section>`
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            const tag = document.createElement('div');
+            tag.className = 'html-tag';
+            tag.innerHTML = htmlTags[Math.floor(Math.random() * htmlTags.length)]
+                .replace(/</g, '<span class="tag-bracket">&lt;</span>')
+                .replace(/>/g, '<span class="tag-bracket">&gt;</span>')
+                .replace(/\b(class|id|type|href|placeholder)\b/g, '<span class="tag-attribute">$1</span>')
+                .replace(/\b(div|h1|h2|p|nav|ul|li|a|form|input|button|section)\b/g, '<span class="tag-name">$1</span>');
+            tag.style.top = Math.random() * 100 + '%';
+            tag.style.left = Math.random() * 100 + '%';
+            tag.style.animationDelay = Math.random() * 4 + 's';
+            shapesContainer.appendChild(tag);
+        }
+
+        // Ajout du code C qui s'écrit
+        const cCodeSnippets = [
+            `#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}`,
+            `void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}`,
+            `struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}`,
+            `#define MAX_SIZE 100
+
+int binarySearch(int arr[], int left, int right, int x) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == x) return mid;
+        if (arr[mid] < x) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}`
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            const code = document.createElement('div');
+            code.className = 'c-code';
+            code.innerHTML = cCodeSnippets[Math.floor(Math.random() * cCodeSnippets.length)]
+                .replace(/\b(int|void|struct|return|if|else|while|for|#include|#define)\b/g, '<span class="c-keyword">$1</span>')
+                .replace(/\b(main|printf|bubbleSort|createNode|binarySearch)\b/g, '<span class="c-function">$1</span>')
+                .replace(/\/\/.*$/gm, '<span class="c-comment">$&</span>');
+            code.style.top = Math.random() * 100 + '%';
+            code.style.left = Math.random() * 100 + '%';
+            code.style.animationDelay = Math.random() * 4 + 's';
+            shapesContainer.appendChild(code);
+        }
+    </script>
+</body>
+</html> 
