@@ -131,15 +131,7 @@ require_once 'includes/functions.php';
         <?php include 'components/navbar.php'; ?>
 
         <main class="main-content">
-            <header>
-                <h2>Gestion des Champs Dynamiques</h2>
-                <div class="user-info" style="margin-top: var(--spacing-md);">
-                    <div class="user-profile">
-                        <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
-                        <span style="color: var(--text-primary); margin-left: var(--spacing-sm);"><?= htmlspecialchars($userName) ?></span>
-                    </div>
-                </div>
-            </header>
+            <?php include 'components/header.php'; ?>
 
             <div class="data-header">
                 <button id="addFieldBtn" class="btn-primary">

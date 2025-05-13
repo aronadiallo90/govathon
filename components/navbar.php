@@ -46,7 +46,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
             </a>
         </li>
         <li>
-            <a href="criteria.php">
+            <a href="criteres.php">
                 <i class="fas fa-list-check"></i>
                 <span>Critères</span>
             </a>

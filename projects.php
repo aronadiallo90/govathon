@@ -71,8 +71,7 @@ $userName = $_SESSION['user_name'] ?? 'Utilisateur';
         <?php include 'components/navbar.php'; ?>
 
         <main class="main-content">
-                        <?php include 'components/header.php'; ?>
-
+            <?php include 'components/header.php'; ?>
 
             <div class="data-management-content">
                 <div class="data-header">

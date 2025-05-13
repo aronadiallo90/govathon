@@ -30,12 +30,12 @@ try {
         throw new Exception('Étape non trouvée');
     }
 
-    // Vérifier si l'étape est active
-    $stmt = $pdo->prepare("SELECT etat FROM etapes WHERE id = ?");
+    // Vérifier si l'étape est en cours
+    $stmt = $pdo->prepare("SELECT statut FROM etapes WHERE id = ?");
     $stmt->execute([$etapeId]);
     $etape = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($etape['etat'] === 'active') {
-        throw new Exception('Impossible de supprimer une étape active');
+    if ($etape['statut'] === 'en_cours') {
+        throw new Exception('Impossible de supprimer une étape en cours');
     }
 
     // Vérifier s'il y a des votes associés à cette étape

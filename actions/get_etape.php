@@ -29,7 +29,7 @@ try {
             date_debut,
             date_fin,
             ordre,
-            etat,
+            statut,
             created_at,
             updated_at
         FROM etapes 

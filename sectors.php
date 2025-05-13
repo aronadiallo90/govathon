@@ -18,6 +18,7 @@ try {
 }
 
 $userName = $_SESSION['user_name'] ?? 'Utilisateur';
+
 ?>
 
 <!DOCTYPE html>
@@ -51,8 +52,22 @@ $userName = $_SESSION['user_name'] ?? 'Utilisateur';
         <?php include 'components/navbar.php'; ?>
 
         <main class="main-content">
-            <?php include 'components/header.php'; ?>
-            
+            <header>
+                <div class="header-content">
+                    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher un secteur..." />
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-bell"></i>
+                        <div class="user-profile">
+                            <div class="jury-avatar president"><?= htmlspecialchars(getInitials($userName)) ?></div>
+                            <span><?= htmlspecialchars($userName) ?></span>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
             <div class="data-management-content">
                 <div class="data-header">

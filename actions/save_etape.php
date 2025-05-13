@@ -18,7 +18,7 @@ try {
     $data = json_decode(file_get_contents('php://input'), true);
     
     // Validation des données requises
-    $requiredFields = ['nom', 'description', 'date_debut', 'date_fin', 'ordre', 'etat'];
+    $requiredFields = ['nom', 'description', 'date_debut', 'date_fin', 'ordre', 'statut'];
     foreach ($requiredFields as $field) {
         if (!isset($data[$field]) || empty($data[$field])) {
             throw new Exception("Le champ '$field' est requis");
@@ -43,9 +43,9 @@ try {
     }
 
     // Validation du statut
-    $validStatuses = ['pending', 'active', 'completed'];
-    if (!in_array($data['etat'], $validStatuses)) {
-        throw new Exception('État invalide');
+    $validStatuses = ['a_venir', 'en_cours', 'terminee'];
+    if (!in_array($data['statut'], $validStatuses)) {
+        throw new Exception('Statut invalide');
     }
 
     // Préparation des données
@@ -55,7 +55,7 @@ try {
         'date_debut' => date('Y-m-d', $dateDebut),
         'date_fin' => date('Y-m-d', $dateFin),
         'ordre' => intval($data['ordre']),
-        'etat' => $data['etat']
+        'statut' => $data['statut']
     ];
 
     // Démarrer une transaction
@@ -70,11 +70,13 @@ try {
                 date_debut = :date_debut,
                 date_fin = :date_fin,
                 ordre = :ordre,
-                etat = :etat,
+                statut = :statut,
                 updated_at = NOW()
             WHERE id = :id
         ");
         $etapeData['id'] = intval($data['etapeId']);
+        $stmt->execute($etapeData);
+        $etapeId = $etapeData['id'];
     } else {
         // Création d'une nouvelle étape
         $stmt = $pdo->prepare("
@@ -84,7 +86,7 @@ try {
                 date_debut, 
                 date_fin, 
                 ordre, 
-                etat, 
+                statut, 
                 created_at, 
                 updated_at
             ) VALUES (
@@ -93,21 +95,22 @@ try {
                 :date_debut,
                 :date_fin,
                 :ordre,
-                :etat,
+                :statut,
                 NOW(),
                 NOW()
             )
         ");
+        $stmt->execute($etapeData);
+        $etapeId = $pdo->lastInsertId();
     }
-
-    $stmt->execute($etapeData);
 
     // Valider la transaction
     $pdo->commit();
 
     echo json_encode([
         'success' => true,
-        'message' => !empty($data['etapeId']) ? 'Étape mise à jour avec succès' : 'Étape créée avec succès'
+        'message' => !empty($data['etapeId']) ? 'Étape mise à jour avec succès' : 'Étape créée avec succès',
+        'etapeId' => $etapeId
     ]);
 
 } catch (Exception $e) {
