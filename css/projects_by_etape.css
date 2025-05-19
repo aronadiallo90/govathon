@@ -1,0 +1,620 @@
+/* Variables globales */
+:root {
+    --primary-color: #00843F;
+    --primary-dark: #006b32;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #2b2d42;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --active-color: #ff6b00;
+    --active-light: #fff3e6;
+    --current-color: #4a90e2;
+    --current-light: #e8f1fd;
+}
+
+/* Styles généraux */
+.data-management-content {
+    padding: 2rem;
+    background-color: var(--light-gray);
+}
+
+/* En-tête */
+.data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+.data-header h2 {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Timeline des étapes */
+.etapes-timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3rem 0;
+    position: relative;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+.etapes-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--active-color), var(--success-color));
+    z-index: 1;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.etape-item {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    border-radius: 16px;
+    min-width: 200px;
+    border: 1px solid transparent;
+}
+
+.etape-item:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: var(--border-color);
+}
+
+.etape-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--border-color);
+    margin-bottom: 1.25rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.etape-dot::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.etape-item.active {
+    background: var(--active-light);
+    border-color: var(--active-color);
+}
+
+.etape-item.active .etape-dot {
+    border-color: var(--active-color);
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(255, 107, 0, 0.2);
+}
+
+.etape-item.active .etape-dot::after {
+    background: var(--active-color);
+    transform: scale(1.2);
+}
+
+.etape-item.completed .etape-dot {
+    border-color: var(--success-color);
+}
+
+.etape-item.completed .etape-dot::after {
+    background: var(--success-color);
+}
+
+.etape-item.future .etape-dot {
+    border-color: var(--secondary-color);
+}
+
+.etape-item.future .etape-dot::after {
+    background: var(--secondary-color);
+    opacity: 0.5;
+}
+
+.etape-item.current {
+    background: var(--current-light);
+    border-color: var(--current-color);
+}
+
+.etape-item.current .etape-dot {
+    border-color: var(--current-color);
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(74, 144, 226, 0.2);
+}
+
+.etape-item.current .etape-dot::after {
+    background: var(--current-color);
+    transform: scale(1.2);
+}
+
+.etape-item.current .etape-label {
+    color: var(--current-color);
+    font-weight: 700;
+    transform: scale(1.05);
+}
+
+.etape-item.current .etape-date {
+    color: var(--current-color);
+    background: rgba(74, 144, 226, 0.1);
+    box-shadow: 0 2px 4px rgba(74, 144, 226, 0.1);
+}
+
+.etape-content {
+    text-align: center;
+    width: 100%;
+}
+
+.etape-label {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.etape-item.active .etape-label {
+    color: var(--active-color);
+    font-weight: 700;
+    transform: scale(1.05);
+}
+
+.etape-item.completed .etape-label {
+    color: var(--success-color);
+}
+
+.etape-item.future .etape-label {
+    color: var(--secondary-color);
+}
+
+.etape-date {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-align: center;
+    padding: 0.6rem 1.2rem;
+    background: var(--light-gray);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.etape-item.active .etape-date {
+    color: var(--active-color);
+    background: rgba(255, 107, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(255, 107, 0, 0.1);
+}
+
+.etape-item.completed .etape-date {
+    color: var(--success-color);
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.etape-item.future .etape-date {
+    color: var(--secondary-color);
+    background: rgba(108, 117, 125, 0.1);
+}
+
+/* Section des projets non assignés */
+.unassigned-projects {
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+.unassigned-projects h3 {
+    color: var(--text-color);
+    font-size: 1.4rem;
+    margin: 0 0 1.5rem 0;
+    font-weight: 600;
+}
+
+/* Grille des projets */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Carte de projet */
+.project-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.project-card.unassigned {
+    border: 2px dashed var(--border-color);
+    background-color: var(--light-gray);
+}
+
+/* En-tête de la carte */
+.project-header {
+    padding: 1.5rem;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+    color: white;
+    position: relative;
+}
+
+.project-card.unassigned .project-header {
+    background: linear-gradient(to right, var(--secondary-color), #495057);
+}
+
+.project-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    backdrop-filter: blur(4px);
+}
+
+.project-status.en_cours {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.project-status.valide {
+    background-color: rgba(23, 162, 184, 0.2);
+}
+
+.project-status.elimine {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+.project-status.non_assigne {
+    background-color: rgba(108, 117, 125, 0.2);
+}
+
+/* Corps de la carte */
+.project-details {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.project-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin: 0;
+    flex-grow: 1;
+}
+
+/* Métadonnées */
+.project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.meta-item i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 132, 63, 0.1);
+    border-radius: 6px;
+}
+
+/* Badges */
+.sector-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0, 132, 63, 0.1);
+    border-radius: 50px;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.sector-badge:hover {
+    background-color: rgba(0, 132, 63, 0.15);
+}
+
+.sector-badge i {
+    color: var(--primary-color);
+}
+
+.votes-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(252, 196, 25, 0.1);
+    border-radius: 50px;
+    color: #fcc419;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.votes-count:hover {
+    background-color: rgba(252, 196, 25, 0.15);
+}
+
+.votes-count i {
+    color: #fcc419;
+}
+
+/* Actions */
+.project-actions {
+    padding: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background-color: var(--light-gray);
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.btn-icon:hover {
+    background-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-btn:hover {
+    color: #339af0;
+}
+
+.edit-btn:hover {
+    color: #40c057;
+}
+
+.delete-btn:hover {
+    color: #fa5252;
+}
+
+.add-btn:hover {
+    color: #20c997;
+}
+
+.remove-btn:hover {
+    color: #fd7e14;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    }
+
+    .etapes-timeline {
+        padding: 2rem;
+    }
+
+    .etape-item {
+        min-width: 180px;
+        padding: 1.25rem;
+    }
+
+    .etape-dot {
+        width: 36px;
+        height: 36px;
+    }
+
+    .etape-dot::after {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .data-management-content {
+        padding: 1rem;
+    }
+
+    .data-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+
+    .etapes-timeline {
+        flex-direction: column;
+        padding: 2rem;
+        gap: 2.5rem;
+    }
+
+    .etapes-timeline::before {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 4px;
+        height: auto;
+        transform: translateX(-50%);
+        background: linear-gradient(to bottom, var(--primary-color), var(--active-color), var(--success-color));
+    }
+
+    .etape-item {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        padding: 1.25rem;
+        min-width: auto;
+        background: white;
+    }
+
+    .etape-dot {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .etape-content {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+    .etape-label {
+        margin-bottom: 0.5rem;
+    }
+
+    .etape-date {
+        display: inline-block;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .project-card {
+        margin-bottom: 0;
+    }
+
+    .project-header h3 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .data-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .project-header {
+        padding: 1.25rem;
+    }
+
+    .project-details {
+        padding: 1.25rem;
+    }
+
+    .project-meta {
+        gap: 0.75rem;
+    }
+
+    .project-actions {
+        padding: 1rem;
+        justify-content: space-around;
+    }
+
+    .btn-icon {
+        padding: 0.6rem;
+        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+    }
+
+    .etape-item {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .etape-dot {
+        width: 32px;
+        height: 32px;
+    }
+
+    .etape-dot::after {
+        width: 16px;
+        height: 16px;
+    }
+
+    .etape-label {
+        font-size: 1rem;
+    }
+
+    .etape-date {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+} 

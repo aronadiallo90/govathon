@@ -279,7 +279,7 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .notification.success {
             background-color: #2e7d32;
-        }
+            }
 
         .notification.error {
             background-color: #d32f2f;
@@ -326,11 +326,11 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             gap: 8px;
             font-size: 1em;
             transition: background-color 0.2s;
-        }
+            }
 
         #add-etape-btn:hover {
             background-color: #006632;
-        }
+            }
 
         #add-etape-btn i {
             font-size: 1.1em;
@@ -354,52 +354,52 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="data-table-container">
                     <div class="etapes-grid">
-                        <?php foreach ($etapes as $etape): ?>
-                            <div class="etape-card" data-etape-id="<?php echo $etape['id']; ?>">
-                                <div class="etape-header">
-                                    <div class="etape-info">
-                                        <h3><?php echo htmlspecialchars($etape['nom']); ?></h3>
+                    <?php foreach ($etapes as $etape): ?>
+                        <div class="etape-card" data-etape-id="<?php echo $etape['id']; ?>">
+                            <div class="etape-header">
+                                <div class="etape-info">
+                                    <h3><?php echo htmlspecialchars($etape['nom']); ?></h3>
                                         <span class="etape-status <?php echo $etape['statut']; ?>">
-                                            <?php 
+                                        <?php 
                                             switch($etape['statut']) {
                                                 case 'a_venir':
                                                     echo 'À venir';
-                                                    break;
+                                                break;
                                                 case 'en_cours':
                                                     echo 'En cours';
-                                                    break;
+                                                break;
                                                 case 'terminee':
-                                                    echo 'Terminée';
-                                                    break;
-                                            }
-                                            ?>
-                                        </span>
-                                    </div>
-                                    <div class="etape-actions">
-                                        <button class="btn-icon edit-etape" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon delete-etape" title="Supprimer">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
+                                                echo 'Terminée';
+                                                break;
+                                        }
+                                        ?>
+                                    </span>
                                 </div>
-                                <div class="etape-details">
-                                    <p><?php echo htmlspecialchars($etape['description']); ?></p>
-                                    <div class="etape-meta">
-                                        <span class="date">
-                                            <i class="fas fa-calendar"></i>
-                                            <?php echo date('d/m/Y', strtotime($etape['date_debut'])); ?> - 
-                                            <?php echo date('d/m/Y', strtotime($etape['date_fin'])); ?>
-                                        </span>
-                                        <span class="ordre">
-                                            <i class="fas fa-sort"></i>
-                                            Ordre: <?php echo $etape['ordre']; ?>
-                                        </span>
-                                    </div>
+                                <div class="etape-actions">
+                                    <button class="btn-icon edit-etape" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon delete-etape" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                            <div class="etape-details">
+                                <p><?php echo htmlspecialchars($etape['description']); ?></p>
+                                <div class="etape-meta">
+                                    <span class="date">
+                                        <i class="fas fa-calendar"></i>
+                                        <?php echo date('d/m/Y', strtotime($etape['date_debut'])); ?> - 
+                                        <?php echo date('d/m/Y', strtotime($etape['date_fin'])); ?>
+                                    </span>
+                                    <span class="ordre">
+                                        <i class="fas fa-sort"></i>
+                                        Ordre: <?php echo $etape['ordre']; ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -598,7 +598,7 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             modal.style.display = 'flex';
             requestAnimationFrame(() => {
-                modal.classList.add('show');
+            modal.classList.add('show');
             });
         }
 
@@ -611,7 +611,7 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';
-                etapeForm.reset();
+            etapeForm.reset();
             }, 300);
         }
 
@@ -676,20 +676,20 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Boutons de fermeture du modal
             if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
             }
             if (cancelBtn) {
-                cancelBtn.addEventListener('click', hideModal);
+        cancelBtn.addEventListener('click', hideModal);
             }
 
             // Formulaire
             if (etapeForm) {
-                etapeForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
+        etapeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
                     console.log('Soumission du formulaire');
                     if (isLoading) return;
 
-                    const formData = new FormData(etapeForm);
+            const formData = new FormData(etapeForm);
                     const etapeData = {
                         etapeId: formData.get('etapeId'),
                         nom: formData.get('nom'),
@@ -711,31 +711,31 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     try {
                         setLoading(true);
-                        const response = await fetch('actions/save_etape.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(etapeData)
-                        });
+                const response = await fetch('actions/save_etape.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(etapeData)
+                });
 
-                        const data = await response.json();
+                const data = await response.json();
                         console.log('Réponse du serveur:', data);
 
-                        if (data.success) {
+                if (data.success) {
                             showNotification(data.message);
-                            hideModal();
+                    hideModal();
                             await refreshEtapes();
-                        } else {
+                } else {
                             showNotification(data.message, 'error');
-                        }
-                    } catch (error) {
-                        console.error('Erreur:', error);
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
                         showNotification('Une erreur est survenue lors de l\'enregistrement de l\'étape', 'error');
                     } finally {
                         setLoading(false);
-                    }
-                });
+            }
+        });
             }
 
             // Attacher les événements initialement
@@ -785,41 +785,41 @@ $etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
 
             // Suppression
-            document.querySelectorAll('.delete-etape').forEach(button => {
-                button.addEventListener('click', async function() {
+        document.querySelectorAll('.delete-etape').forEach(button => {
+            button.addEventListener('click', async function() {
                     console.log('Clic sur le bouton de suppression');
                     if (isLoading) return;
-                    const etapeCard = this.closest('.etape-card');
-                    const etapeId = etapeCard.dataset.etapeId;
+                const etapeCard = this.closest('.etape-card');
+                const etapeId = etapeCard.dataset.etapeId;
 
-                    if (confirm('Êtes-vous sûr de vouloir supprimer cette étape ?')) {
-                        try {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette étape ?')) {
+                    try {
                             setLoading(true);
-                            const response = await fetch('actions/delete_etape.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ id: etapeId })
-                            });
+                        const response = await fetch('actions/delete_etape.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: etapeId })
+                        });
 
-                            const data = await response.json();
+                        const data = await response.json();
                             console.log('Réponse de suppression:', data);
-                            if (data.success) {
+                        if (data.success) {
                                 showNotification(data.message);
                                 await refreshEtapes();
-                            } else {
+                        } else {
                                 showNotification(data.message, 'error');
-                            }
-                        } catch (error) {
-                            console.error('Erreur:', error);
+                        }
+                    } catch (error) {
+                        console.error('Erreur:', error);
                             showNotification('Une erreur est survenue lors de la suppression', 'error');
                         } finally {
                             setLoading(false);
                         }
-                    }
-                });
+                }
             });
+        });
         }
     </script>
 </body>
