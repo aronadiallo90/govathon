@@ -46,6 +46,12 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'superadmin') {
             </a>
         </li>
         <li>
+            <a href="projects_by_etape.php">
+                <i class="fas fa-layer-group"></i>
+                <span>Projets par Étapes</span>
+            </a>
+        </li>
+        <li>
             <a href="criteres.php">
                 <i class="fas fa-list-check"></i>
                 <span>Critères</span>

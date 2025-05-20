@@ -34,25 +34,24 @@ if (!$current_etape) {
 
 // Récupération des projets pour l'étape actuelle
 $stmt = $pdo->prepare("
-    SELECT p.*, s.nom as secteur_nom, s.icon as secteur_icon,
-           COUNT(DISTINCT v.id) as vote_count,
-           COALESCE(AVG(v.note), 0) as avg_score,
+    SELECT DISTINCT p.*, 
+           s.nom as secteur_nom, 
+           s.icon as secteur_icon,
            pe.status as etape_status,
-           e.ordre as etape_ordre,
-           CASE 
-               WHEN e.id = ? THEN 1  -- Priorité à l'étape sélectionnée
-               WHEN ? BETWEEN e.date_debut AND e.date_fin THEN 2  -- Puis à l'étape en cours
-               ELSE 3  -- Enfin les autres étapes
-           END as priority
+           (SELECT COUNT(DISTINCT v.id) 
+            FROM votes v 
+            WHERE v.project_id = p.id 
+            AND v.etape_id = ?) as vote_count,
+           (SELECT AVG(v.note) 
+            FROM votes v 
+            WHERE v.project_id = p.id 
+            AND v.etape_id = ?) as avg_score
     FROM projects p
     LEFT JOIN secteurs s ON p.secteur_id = s.id
-    LEFT JOIN project_etapes pe ON p.id = pe.project_id
-    LEFT JOIN etapes e ON pe.etape_id = e.id
-    LEFT JOIN votes v ON p.id = v.project_id AND v.etape_id = e.id
-    GROUP BY p.id, s.nom, s.icon, pe.status, e.ordre, e.id, e.date_debut, e.date_fin
-    ORDER BY priority ASC, etape_ordre ASC
+    INNER JOIN project_etapes pe ON p.id = pe.project_id AND pe.etape_id = ?
+    ORDER BY pe.created_at DESC
 ");
-$stmt->execute([$current_etape, date('Y-m-d')]);
+$stmt->execute([$current_etape, $current_etape, $current_etape]);
 $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Récupération des projets non assignés à l'étape
@@ -61,12 +60,14 @@ $stmt = $pdo->prepare("
     FROM projects p
     LEFT JOIN secteurs s ON p.secteur_id = s.id
     WHERE NOT EXISTS (
-        SELECT 1 FROM project_etapes pe 
-        WHERE pe.project_id = p.id
+        SELECT 1 
+        FROM project_etapes pe 
+        WHERE pe.project_id = p.id 
+        AND pe.etape_id = ?
     )
     ORDER BY p.created_at DESC
 ");
-$stmt->execute();
+$stmt->execute([$current_etape]);
 $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -227,6 +228,8 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <script>
         function addProjectToEtape(projectId) {
+            if (!confirm('Voulez-vous ajouter ce projet à l\'étape actuelle ?')) return;
+
             const etapeId = <?php echo $current_etape; ?>;
             fetch('actions/update_project_etape.php', {
                 method: 'POST',
@@ -254,33 +257,33 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         function removeProjectFromEtape(projectId) {
-            if (confirm('Êtes-vous sûr de vouloir retirer ce projet de cette étape ?')) {
-                const etapeId = <?php echo $current_etape; ?>;
-                fetch('actions/update_project_etape.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'remove',
-                        project_id: projectId,
-                        etape_id: etapeId
-                    })
+            if (!confirm('Êtes-vous sûr de vouloir retirer ce projet de cette étape ?')) return;
+
+            const etapeId = <?php echo $current_etape; ?>;
+            fetch('actions/update_project_etape.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'remove',
+                    project_id: projectId,
+                    etape_id: etapeId
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert(data.message || 'Une erreur est survenue');
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors du retrait du projet');
-                });
-            }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'Une erreur est survenue');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors du retrait du projet');
+            });
         }
     </script>
 </body>
-</html> 
+</html>

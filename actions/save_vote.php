@@ -13,6 +13,30 @@ if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], ['jury',
     exit;
 }
 
+function validateVote($userId, $projectId, $critereId, $etapeId, $note) {
+    global $pdo;
+    
+    // Vérifier la contrainte UNIQUE sur les votes
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) FROM votes 
+        WHERE user_id = ? AND project_id = ? AND critere_id = ? AND etape_id = ?
+    ");
+    $stmt->execute([$userId, $projectId, $critereId, $etapeId]);
+    if ($stmt->fetchColumn() > 0) {
+        throw new Exception('Vote déjà existant');
+    }
+
+    // Vérifier que le projet est dans l'étape actuelle
+    $stmt = $pdo->prepare("
+        SELECT 1 FROM project_etapes 
+        WHERE project_id = ? AND etape_id = ? AND status = 'en_cours'
+    ");
+    $stmt->execute([$projectId, $etapeId]);
+    if (!$stmt->fetch()) {
+        throw new Exception('Le projet n\'est pas dans cette étape');
+    }
+}
+
 try {
     // Récupérer les données JSON
     $data = json_decode(file_get_contents('php://input'), true);
@@ -68,6 +92,9 @@ try {
         if ($note < 0 || $note > 10) {
             continue;
         }
+
+        // Valider le vote
+        validateVote($userId, $projectId, $critereId, $etapeId, $note);
         
         $stmt->execute([$userId, $projectId, $critereId, $etapeId, $note]);
     }

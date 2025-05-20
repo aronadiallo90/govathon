@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 19 mai 2025 à 13:09
+-- Généré le : mar. 20 mai 2025 à 12:37
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -67,8 +67,9 @@ CREATE TABLE `dynamic_field_definitions` (
 --
 
 INSERT INTO `dynamic_field_definitions` (`id`, `field_name`, `field_type`, `is_required`, `created_at`, `updated_at`) VALUES
-(2, 'Email', 'email', 0, '2025-05-05 16:48:10', '2025-05-05 16:48:10'),
-(3, 'Téléphone', 'text', 0, '2025-05-05 16:49:24', '2025-05-05 16:49:24');
+(2, 'Email', 'email', 1, '2025-05-05 16:48:10', '2025-05-19 12:29:51'),
+(3, 'Téléphone', 'text', 0, '2025-05-05 16:49:24', '2025-05-05 16:49:24'),
+(13, 'Verification Code', 'text', 0, '2025-05-19 12:39:56', '2025-05-19 12:39:56');
 
 -- --------------------------------------------------------
 
@@ -124,9 +125,9 @@ CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
-  `status` enum('draft','submitted','under_review','approved','rejected') DEFAULT 'draft',
+  `status` enum('draft','submitted','under_review','approved','rejected','pending') DEFAULT 'draft',
   `secteur_id` int(11) NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -140,7 +141,8 @@ INSERT INTO `projects` (`id`, `nom`, `description`, `status`, `secteur_id`, `cre
 (10, 'jhbhbuhu', 'jknerfjkngjerkngit ekrjtntrenr', 'approved', 9, 3, '2025-05-06 12:59:09', '2025-05-06 12:59:09'),
 (11, 'TestNouveausqjn', 'skjbnz zjbkzer  zekjbnf', 'submitted', 4, 3, '2025-05-06 15:59:30', '2025-05-06 15:59:30'),
 (12, 'NNNNNNNN', 'bbbbbbbb', 'draft', 11, 3, '2025-05-06 17:30:58', '2025-05-06 17:30:58'),
-(14, 'NNNNNNNN', 'ihbohkl oihbih hjb', 'submitted', 8, 3, '2025-05-08 10:27:22', '2025-05-08 10:27:22');
+(14, 'NNNNNNNN', 'ihbohkl oihbih hjb', 'submitted', 8, 3, '2025-05-08 10:27:22', '2025-05-08 10:27:22'),
+(21, 'arona test ', 'kjn d djkhb ', 'submitted', 12, NULL, '2025-05-20 09:10:57', '2025-05-20 09:27:06');
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,8 @@ INSERT INTO `project_dynamic_values` (`id`, `project_id`, `field_id`, `field_val
 (10, 12, 2, 'aronadiallo@gmail.com', '2025-05-06 17:30:58', '2025-05-06 17:30:58'),
 (11, 12, 3, '888888', '2025-05-06 17:30:58', '2025-05-06 17:30:58'),
 (14, 14, 2, 'aronadialliio@gmail.com', '2025-05-08 10:27:22', '2025-05-08 10:27:22'),
-(15, 14, 3, '88888888', '2025-05-08 10:27:22', '2025-05-08 10:27:22');
+(15, 14, 3, '88888888', '2025-05-08 10:27:22', '2025-05-08 10:27:22'),
+(56, 21, 2, 'aronadiadiallo@esp.sn', '2025-05-20 09:10:57', '2025-05-20 09:10:57');
 
 -- --------------------------------------------------------
 
@@ -194,11 +197,10 @@ CREATE TABLE `project_etapes` (
 --
 
 INSERT INTO `project_etapes` (`id`, `project_id`, `etape_id`, `status`, `score`, `created_at`, `updated_at`) VALUES
-(1, 8, 2, 'en_cours', NULL, '2025-05-19 09:52:17', '2025-05-19 09:52:17'),
-(3, 12, 2, 'en_cours', NULL, '2025-05-19 09:52:17', '2025-05-19 09:52:17'),
-(5, 11, 2, 'en_cours', NULL, '2025-05-19 09:52:17', '2025-05-19 09:52:17'),
-(9, 10, 2, 'en_cours', NULL, '2025-05-19 09:52:17', '2025-05-19 09:52:17'),
-(16, 14, 4, 'en_cours', NULL, '2025-05-19 10:09:22', '2025-05-19 10:09:22');
+(41, 10, 4, 'en_cours', NULL, '2025-05-20 09:48:20', '2025-05-20 09:48:20'),
+(42, 8, 4, 'en_cours', NULL, '2025-05-20 09:48:22', '2025-05-20 09:48:22'),
+(43, 12, 4, 'en_cours', NULL, '2025-05-20 09:48:24', '2025-05-20 09:48:24'),
+(71, 21, 4, 'en_cours', NULL, '2025-05-20 09:52:59', '2025-05-20 09:52:59');
 
 -- --------------------------------------------------------
 
@@ -354,7 +356,7 @@ ALTER TABLE `project_dynamic_values`
 --
 ALTER TABLE `project_etapes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_project_etape` (`project_id`,`etape_id`),
+  ADD UNIQUE KEY `unique_project` (`project_id`),
   ADD KEY `etape_id` (`etape_id`);
 
 --
@@ -395,7 +397,7 @@ ALTER TABLE `criteres`
 -- AUTO_INCREMENT pour la table `dynamic_field_definitions`
 --
 ALTER TABLE `dynamic_field_definitions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `etapes`
@@ -413,19 +415,19 @@ ALTER TABLE `evaluations`
 -- AUTO_INCREMENT pour la table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `project_dynamic_values`
 --
 ALTER TABLE `project_dynamic_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT pour la table `project_etapes`
 --
 ALTER TABLE `project_etapes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT pour la table `secteurs`
