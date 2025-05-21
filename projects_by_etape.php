@@ -123,39 +123,6 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </div>
 
-                <?php if (in_array($_SESSION['user_role'], ['admin', 'superadmin'])): ?>
-                    <div class="unassigned-projects">
-                        <h3>Projets non assignés à cette étape</h3>
-                        <div class="projects-grid">
-                            <?php foreach ($unassigned_projects as $project): ?>
-                                <div class="project-card unassigned">
-                                    <div class="project-header">
-                                        <h3><?php echo htmlspecialchars($project['nom']); ?></h3>
-                                    </div>
-                                    <div class="project-details">
-                                        <p class="project-description">
-                                            <?php echo htmlspecialchars($project['description']); ?>
-                                        </p>
-                                        <div class="project-meta">
-                                            <div class="meta-item">
-                                                <i class="fas <?php echo $project['secteur_icon'] ?? 'fa-building'; ?>"></i>
-                                                <span class="sector-badge">
-                                                    <?php echo htmlspecialchars($project['secteur_nom']); ?>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="project-actions">
-                                        <button class="btn-icon add-btn" title="Ajouter à l'étape" onclick="addProjectToEtape(<?php echo $project['id']; ?>)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
                 <div class="projects-grid">
                     <?php foreach ($projects as $project): ?>
                         <div class="project-card">
@@ -214,6 +181,10 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <div class="project-actions">
                                 <?php if (in_array($_SESSION['user_role'], ['admin', 'superadmin'])): ?>
+                                    <button class="btn-icon preselect-btn" onclick="preselectProject(<?php echo $project['id']; ?>)">
+                                        <i class="fas fa-check"></i> Présélectionner
+                                    </button>
+                                    
                                     <button class="btn-icon remove-btn" title="Retirer de l'étape" onclick="removeProjectFromEtape(<?php echo $project['id']; ?>)">
                                         <i class="fas fa-minus"></i>
                                     </button>
@@ -222,6 +193,38 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php endforeach; ?>
                 </div>
+                 <?php if (in_array($_SESSION['user_role'], ['admin', 'superadmin'])): ?>
+                    <div class="unassigned-projects">
+                        <h3>Projets non assignés à cette étape</h3>
+                        <div class="projects-grid">
+                            <?php foreach ($unassigned_projects as $project): ?>
+                                <div class="project-card unassigned">
+                                    <div class="project-header">
+                                        <h3><?php echo htmlspecialchars($project['nom']); ?></h3>
+                                    </div>
+                                    <div class="project-details">
+                                        <p class="project-description">
+                                            <?php echo htmlspecialchars($project['description']); ?>
+                                        </p>
+                                        <div class="project-meta">
+                                            <div class="meta-item">
+                                                <i class="fas <?php echo $project['secteur_icon'] ?? 'fa-building'; ?>"></i>
+                                                <span class="sector-badge">
+                                                    <?php echo htmlspecialchars($project['secteur_nom']); ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-actions">
+                                        <button class="btn-icon add-btn" title="Ajouter à l'étape" onclick="addProjectToEtape(<?php echo $project['id']; ?>)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </main>
     </div>
@@ -231,7 +234,7 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (!confirm('Voulez-vous ajouter ce projet à l\'étape actuelle ?')) return;
 
             const etapeId = <?php echo $current_etape; ?>;
-            fetch('actions/update_project_etape.php', {
+            fetch('actions/update_project_etape.php', {  // Chemin relatif correct
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -256,11 +259,38 @@ $unassigned_projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
             });
         }
 
+        function preselectProject(projectId) {
+            if (!confirm('Voulez-vous présélectionner ce projet ?')) return;
+
+            fetch('actions/update_project_etape.php', {  // Corrigé le chemin
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'preselect',
+                    project_id: projectId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'Une erreur est survenue');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la présélection');
+            });
+        }
+
         function removeProjectFromEtape(projectId) {
             if (!confirm('Êtes-vous sûr de vouloir retirer ce projet de cette étape ?')) return;
 
             const etapeId = <?php echo $current_etape; ?>;
-            fetch('actions/update_project_etape.php', {
+            fetch('actions/update_project_etape.php', {  // Chemin relatif correct
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

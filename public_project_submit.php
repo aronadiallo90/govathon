@@ -27,10 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          $error = "Veuillez sélectionner un secteur valide.";
     }
     
-    // Génération du code de vérification (Plus nécessaire)
-    // $verification_code = bin2hex(random_bytes(3));
-    // $verification_code = strtoupper($verification_code);
-    
     try {
         $pdo->beginTransaction();
         
@@ -49,47 +45,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Cette adresse email est déjà utilisée pour un projet soumis.";
         } else {
             // Création du projet avec statut 'pending' pour présélection
-            $stmt = $pdo->prepare("
-                INSERT INTO projects (nom, description, secteur_id, status, created_by)
-                VALUES (?, ?, ?, 'pending', NULL)
-            ");
+            $stmt = $pdo->prepare("INSERT INTO projects (nom, description, secteur_id, status, created_by) VALUES (?, ?, ?, 'pending', NULL)");
             $stmt->execute([$nom, $description, $secteur_id]);
             $project_id = $pdo->lastInsertId();
-            
-            // Récupération de l'ID du champ dynamique 'Email'
-            $stmt_email_field = $pdo->prepare("SELECT id FROM dynamic_field_definitions WHERE field_name = 'Email' LIMIT 1");
-            $stmt_email_field->execute();
-            $email_field = $stmt_email_field->fetch();
 
-            if ($email_field) {
-                 // Enregistrement de l'email comme champ dynamique
-                $stmt_insert_email = $pdo->prepare("
-                    INSERT INTO project_dynamic_values (project_id, field_id, field_value)
-                    VALUES (?, ?, ?)
-                ");
-                $stmt_insert_email->execute([$project_id, $email_field['id'], $email]);
-            } else {
-                // Gérer l'erreur si le champ 'Email' n'existe pas
-                throw new Exception("Le champ dynamique 'Email' n'est pas défini.");
-            }
-            
-            // Enregistrement du code de vérification (Plus nécessaire)
-            // $stmt = $pdo->prepare("
-            //     INSERT INTO project_dynamic_values (project_id, field_id, field_value)
-            //     SELECT ?, id, ?
-            //     FROM dynamic_field_definitions
-            //     WHERE field_name = 'Verification Code'
-            // ");
-            // $stmt->execute([$project_id, $verification_code]);
-            
-            // Envoi du code de vérification par email (Plus nécessaire)
-            // $mailer = new Mailer();
-            // if ($mailer->sendVerificationCode($email, $verification_code)) {
-                 $pdo->commit();
-                 $success = "Votre projet a été soumis avec succès et est en attente de présélection.";
-            // } else {
-            //     throw new Exception("Erreur lors de l'envoi de l'email");
-            // }
+            // Ajouter directement à l'étape Inscription
+            $stmt = $pdo->prepare("
+                INSERT INTO project_etapes (project_id, etape_id, status)
+                SELECT ?, id, 'en_cours'
+                FROM etapes 
+                WHERE nom = 'Inscription'
+            ");
+            $stmt->execute([$project_id]);
+
+            // Sauvegarder l'email
+            $stmt = $pdo->prepare("
+                INSERT INTO project_dynamic_values (project_id, field_id, field_value)
+                SELECT ?, id, ?
+                FROM dynamic_field_definitions
+                WHERE field_name = 'Email'
+            ");
+            $stmt->execute([$project_id, $email]);
+
+            $pdo->commit();
+            $success = "Votre projet a été soumis avec succès et est en étape d'inscription.";
         }
     } catch (Exception $e) {
         $pdo->rollBack();
@@ -160,4 +139,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </main>
     </div>
 </body>
-</html> 
+</html>

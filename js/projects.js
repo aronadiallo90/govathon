@@ -45,9 +45,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Functions
-    async function loadProjects() {
+    // Fonction de filtrage
+    function applyFilters() {
+        const sector = filterSector.value;
+        const status = filterStatus.value;
+        
+        const params = new URLSearchParams();
+        if (sector !== 'all') params.append('sector', sector);
+        if (status !== 'all') params.append('status', status);
+        
+        loadProjects(params);
+    }
+
+    async function loadProjects(params = new URLSearchParams()) {
         try {
-            const response = await fetch('actions/get_projects.php');
+            const url = `actions/get_projects.php?${params.toString()}`;
+            const response = await fetch(url);
             if (!response.ok) throw new Error('Network response was not ok');
             
             const data = await response.json();
@@ -136,30 +149,26 @@ document.addEventListener('DOMContentLoaded', function() {
 function createProjectRow(project, dynamicFields) {
         const row = document.createElement('tr');
         
-        const dynamicValues = project.dynamic_values ? 
-            Object.fromEntries(
-                project.dynamic_values.split('||')
-                    .map(pair => pair.split(':'))
-            ) : {};
-
         let dynamicFieldsHtml = '';
         dynamicFields.forEach(field => {
-            const value = dynamicValues[field.id] || '';
+            // project.dynamic_values est déjà un objet depuis le serveur
+            const value = project.dynamic_values && project.dynamic_values[field.id] ? 
+                project.dynamic_values[field.id] : '';
             dynamicFieldsHtml += `<td>${value}</td>`;
         });
 
         row.innerHTML = `
             <td>${project.id}</td>
-            <td>${project.nom}</td>
+            <td>${project.nom || ''}</td>
             <td>${project.created_by_email || 'N/A'}</td>
-            <td>${project.secteur_name || 'N/A'}</td>
+            <td>${project.secteur_nom || 'N/A'}</td>
             <td>${formatDate(project.created_at)}</td>
             <td>
                 <span class="status-badge ${project.status}">
-                    ${getStatusLabel(project.status)}
+                    ${project.status ? getStatusLabel(project.status) : 'N/A'}
                 </span>
             </td>
-            <td>${Number(project.note_moyenne).toFixed(2)}</td>
+            <td>${project.note_moyenne ? Number(project.note_moyenne).toFixed(2) : '0.00'}</td>
             ${dynamicFieldsHtml}
             <td class="actions">
                 <div class="action-buttons">
@@ -251,10 +260,6 @@ function createProjectRow(project, dynamicFields) {
         } catch (error) {
             showNotification(error.message, 'error');
         }
-    }
-
-    function applyFilters() {
-        loadProjects();
     }
 
     function formatDate(dateString) {

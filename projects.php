@@ -98,7 +98,7 @@ $userName = $_SESSION['user_name'] ?? 'Utilisateur';
                         <option value="approved">Approuvé</option>
                         <option value="rejected">Rejeté</option>
                     </select>
-                    <button class="btn-secondary">Filtrer</button>
+                    <button class="btn-secondary" onclick="applyFilters()">Filtrer</button>
                 </div>
 
                 <div class="data-table-container">
